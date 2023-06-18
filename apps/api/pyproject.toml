@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "tfa"
+version = "0.1.0"
+description = "Time to finish watching an anime"
+authors = ["adryellsz <adryellpaulo@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.97.0"
+uvicorn = "^0.22.0"
+pydantic = {extras = ["dotenv"], version = "^1.10.9"}
+graphene = "^3.2.2"
+sqlalchemy = "^2.0.16"
+loguru = "^0.7.0"
+psycopg2 = "^2.9.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
