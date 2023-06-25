@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from fastapi import Request
-from fastapi import WebSocket
+from fastapi import WebSocket, Request
 from graphql import GraphQLResolveInfo
 from sqlalchemy.orm import Session
 
