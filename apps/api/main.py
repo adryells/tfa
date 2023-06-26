@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from apps.api.app.services.router import graphql_router, graphql_app
+from app.services.router import graphql_router, graphql_app
 
 app = FastAPI(title="TFA")
 app.include_router(graphql_router)

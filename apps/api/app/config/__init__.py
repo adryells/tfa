@@ -14,6 +14,10 @@ class AppConfig(BaseSettings):
 
     DEVELOPMENT: bool = False
 
+    MAL_CLIENT_ID: str = ""
+
+    MAL_CLIENT_SECRET: str = ""
+
     class Config:
         env_file = ".env"
         env_prefix = "TFA_"

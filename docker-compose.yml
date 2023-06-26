@@ -4,13 +4,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
-      - 5433
+      - 5432
     ports:
-      - "5433:5433"
+      - "5432:5432"
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=tfa
+      - POSTGRES_PASSWORD=tfa#123
+      - POSTGRES_DB=tfa
     env_file:
       - .env
 

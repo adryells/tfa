@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from starlette.datastructures import URL
 from starlette_graphene3 import GraphQLApp, make_graphiql_handler, make_playground_handler
 
-from apps.api.app.database.session import main_session
-from apps.api.app.services.schema import graphql_schema
-from apps.api.app.services.utils.custom_graphql_info import make_context
+from app.database.session import main_session
+from app.services.schema import graphql_schema
+from app.services.utils.custom_graphql_info import make_context
 
 graphql_app = GraphQLApp(
     schema=graphql_schema,

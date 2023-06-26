@@ -1,7 +1,7 @@
 from graphene import ObjectType, Schema
 
-from apps.api.app.queries.teste import Teste
-from apps.api.app.services.utils.graphql_mounter import mount_object
+from app.queries.teste import Teste
+from app.services.utils.graphql_mounter import mount_object
 
 
 class Query(

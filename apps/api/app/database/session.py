@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import NullPool
 
-from apps.api.app.config import settings
+from app.config import settings
 
 engine = create_engine(url=settings.DATABASE_URL, poolclass=NullPool)
 

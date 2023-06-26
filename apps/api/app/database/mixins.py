@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Table, DateTime, func
 
-from apps.api.app.database.base_class import DbBaseModel
+from app.database.base_class import DbBaseModel
 
 
 class CreatedUpdatedDeletedMixin:
