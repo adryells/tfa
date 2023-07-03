@@ -1,6 +1,8 @@
 import requests
 
-client_id = ""
+from app.config import settings
+
+client_id = settings.MAL_CLIENT_ID
 client_secret = ""
 
 base_url = "https://api.myanimelist.net/v2"
@@ -9,7 +11,7 @@ field_path_params = "?fields=id,title,main_picture,alternative_titles,start_date
 
 
 headers = {
-    "X-MAL-CLIENT-ID": client_id,
+    "X-MAL-CLIENT-ID": client_id
 }
 
 

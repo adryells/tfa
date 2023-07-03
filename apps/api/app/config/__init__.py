@@ -18,6 +18,8 @@ class AppConfig(BaseSettings):
 
     MAL_CLIENT_SECRET: str = ""
 
+    MAL_BASE_URL: str = ""
+
     class Config:
         env_file = ".env"
         env_prefix = "TFA_"
