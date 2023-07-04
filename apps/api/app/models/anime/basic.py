@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Column, String, ForeignKey, Boolean
+from sqlalchemy import Integer, Column, String, ForeignKey, Boolean, Float
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
@@ -20,7 +20,7 @@ class Anime(DbBaseModel, CreatedUpdatedDeletedMixin):
 
     num_episodes = Column(Integer, nullable=False)
 
-    average_ep_duration = Column(Integer, nullable=False)
+    average_ep_duration = Column(Float, nullable=False)
 
     source_data_id = Column(Integer, ForeignKey(SourceData.id), nullable=False)
     source_data: SourceData = relationship(SourceData, foreign_keys=[source_data_id])

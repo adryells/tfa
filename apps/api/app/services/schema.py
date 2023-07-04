@@ -1,7 +1,7 @@
 from graphene import ObjectType, Schema
 
 from app.services.queries.anime import Animes
-from app.services.mutation.twa import CalculateUnregisteredAnime
+from app.services.mutation.calculate_tfa import CalculateTFA
 from app.services.utils.graphql_mounter import mount_object
 
 
@@ -14,7 +14,7 @@ class Query(
 
 class Mutation(
     ObjectType,
-    mount_object(CalculateUnregisteredAnime)
+    mount_object(CalculateTFA)
 ):
     pass
 

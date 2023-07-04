@@ -17,6 +17,3 @@ def restart_db(db_session: Session):
     drop_db(db_session)
     init_db(db_session)
     load_all_data(db_session)
-
-
-restart_db(main_session())

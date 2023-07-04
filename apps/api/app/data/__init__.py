@@ -6,10 +6,12 @@ from app.data.data.load_source_data import load_source_data
 from app.data.size_type.load_size_types import load_size_types
 
 
-def load_prod_data(db_session: Session):
+def load_prod_data(db_session: Session, real_anime: bool = True):
     load_size_types(db_session)
     load_source_data(db_session)
-    load_real_anime_from_csv_files(db_session)
+
+    if real_anime:
+        load_real_anime_from_csv_files(db_session)
 
 
 def load_dev_data(db_session: Session):
