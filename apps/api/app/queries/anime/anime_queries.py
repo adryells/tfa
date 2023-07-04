@@ -47,3 +47,10 @@ class AnimeQueries(BaseQueries):
             query = order_handler[sort_by]()
 
         return query
+
+    def check_anime_exists_with_name(self, name: str) -> bool:
+        exists = self.session.query(
+            self.session.query(Anime.id).filter(Anime.name == name).exists()
+        ).scalar()
+
+        return exists

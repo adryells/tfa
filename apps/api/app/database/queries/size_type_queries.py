@@ -10,7 +10,7 @@ class SizeTypeQueries(BaseQueries):
 
         return exists
 
-    def get_size_type_by_name(self, name: str):
+    def get_size_type_by_name(self, name: str) -> SizeType:
         size_type = self.session.query(SizeType).filter(SizeType.name == name).one_or_none()
 
         return size_type

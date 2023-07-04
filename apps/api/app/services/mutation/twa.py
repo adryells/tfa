@@ -1,5 +1,6 @@
-from graphene import ObjectType, String, Argument, Int, Float, Mutation, InputObjectType, Field
+from graphene import ObjectType, String, Int, Float, Mutation, InputObjectType, Field
 
+from app.controllers.anime.anime_controller import AnimeController
 from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 
 
@@ -22,18 +23,16 @@ class CalculateUnregisteredAnime(Mutation):
 
     result = Field(TWAResult)
 
-    def mutate(self, _: TFAGraphQLResolveInfo, input_data: InputCalculateUnregisteredAnime):
-        total_hours = (input_data.num_episodes * input_data.average_minutes_per_ep) / 60
-        total_days = round(total_hours / 24, 2)
-
-        if input_data.available_hours:
-            days_predicted = round(total_hours / input_data.available_hours, 2)
-
-        else:
-            days_predicted = round(total_hours / 2, 2)
+    def mutate(self, info: TFAGraphQLResolveInfo, input_data: InputCalculateUnregisteredAnime):
+        tfa_result = AnimeController(info.context.session).register_and_get_tfa_result(
+            num_episodes=input_data.num_episodes,
+            average_minutes_per_ep=input_data.average_minutes_per_ep,
+            title=input_data.title,
+            available_hours=input_data.available_hours
+        )
 
         result = CalculateUnregisteredAnime(
-            TWAResult(days_predicted=days_predicted, total_days=total_days, total_hours=total_hours)
+            TWAResult(**tfa_result)
         )
 
         return result
