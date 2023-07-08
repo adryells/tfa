@@ -1,6 +1,14 @@
 import re
 
+from faker import Faker
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from app.data.data import imagination_source
+from app.models.anime.basic import Anime
+from app.queries.source_data.source_data_queries import SourceDataQueries
+
+fake = Faker()
 
 
 class DatabaseParameters(BaseModel):
@@ -25,3 +33,19 @@ class DatabaseParameters(BaseModel):
             port=port,
             db_name=db_name
         )
+
+
+def create_anime(session: Session):
+    source_data = SourceDataQueries(session).get_source_data_by_name(imagination_source.name)
+
+    new_anime = Anime(
+        name=fake.name().lower(),
+        num_episodes=fake.pyint(),
+        average_ep_duration=fake.pyint(),
+        source_data=source_data
+    )
+
+    session.add(new_anime)
+    session.commit()
+
+    return new_anime

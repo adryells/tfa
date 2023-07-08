@@ -1,11 +1,8 @@
 import math
-from typing import Dict, Any, List, Type
+from typing import Any
 
 from faker import Faker
-from sqlalchemy.orm import Session
 from starlette.testclient import TestClient
-
-from app.database.base_class import DbBaseModel
 
 
 class BaseTest:
@@ -27,47 +24,25 @@ class BaseTest:
 
     def assert_pagination_and_get_items(
             self,
-            db_session: Session,
-            query_name: str,
-            client: TestClient,
-            query: str,
+            data: dict,
+            total_count: int,
             page: int = 1,
-            per_page: int = 4,
-            model_name: str = None
-    ) -> List[Dict[str, Any]]:
-        variables = {
-            "page": page,
-            "perpage": per_page
-        }
+            per_page: int = 10
+    ) -> list[dict[str, Any]]:
 
-        response = self.request_api(
-            test_client=client,
-            variables=variables,
-            query=query
-        )
+        assert data["items"]
+        assert data["page"]
+        assert data["perPage"]
+        assert data["pages"]
+        assert data["totalCount"]
 
-        assert not response.get("errors")
-        assert response["data"][query_name]["all"]
+        assert data["perPage"] == per_page
+        assert data["page"] == page
 
-        response_all = response["data"][query_name]["all"]
+        assert data["totalCount"] == total_count
+        assert data["pages"] == math.ceil(data["totalCount"] / data["perPage"])
 
-        assert response_all["items"]
-        assert response_all["page"]
-        assert response_all["perpage"]
-        assert response_all["pages"]
-        assert response_all["totalCount"]
-
-        assert variables["perpage"] == response_all["perpage"]
-        assert response_all["page"] == variables["page"]
-
-        model_name = model_name or query_name
-
-        model = self.get_model_from_name(name=model_name)
-
-        assert response_all["totalCount"] == db_session.query(model).count()
-        assert response_all["pages"] == math.ceil(response_all["totalCount"] / response_all["perpage"])
-
-        return response_all["items"]
+        return data["items"]
 
     def assert_response_error(
             self,
@@ -85,10 +60,24 @@ class BaseTest:
         assert response.get('errors')
         assert response['errors'][0]['message'] == error_message
 
-    def get_model_from_name(self, name) -> Type[DbBaseModel]:
-        model = [
-            model_class for model_class in DbBaseModel.__subclasses__()
-            if model_class.__name__ == name
-        ][0]
+    def assert_sorting_response(
+            self,
+            order_by_condition: str,
+            reverse_list_condition: str,
+            sorting_parameter: str,
+            response_list: list[dict[str, Any]]
+    ):
+        reverse = True if order_by_condition == reverse_list_condition else False
 
-        return model
+        if isinstance(response_list[0][sorting_parameter], str):
+            sorting_term = lambda item: item[sorting_parameter].lower().replace(" ", "")
+        else:
+            sorting_term = lambda item: item[sorting_parameter]
+
+        manually_ordered_list = sorted(
+            response_list,
+            key=sorting_term,
+            reverse=reverse
+        )
+
+        assert manually_ordered_list == response_list

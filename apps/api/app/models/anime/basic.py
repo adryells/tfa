@@ -31,7 +31,7 @@ class Anime(DbBaseModel, CreatedUpdatedDeletedMixin):
 
     @hybrid_property
     def total_hours(self) -> float:
-        calc = self.average_ep_duration * self.num_episodes
+        calc = (self.average_ep_duration * self.num_episodes) / 60
 
         return calc
 

@@ -14,6 +14,9 @@ class AnimeController(BaseController):
     def get_anime_by_id(self, anime_id: int) -> Anime:
         anime = AnimeQueries(self.session).get_anime_by_id(anime_id=anime_id)
 
+        if not anime:
+            raise Exception("Anime not found.")
+
         return anime
 
     def get_animes_count(self, search: str = None) -> int:

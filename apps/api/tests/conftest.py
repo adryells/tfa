@@ -16,7 +16,7 @@ from app.models.anime.basic import Anime
 from app.queries.source_data.source_data_queries import SourceDataQueries
 from app.services.router import graphql_app
 from main import app
-from tests.utils import DatabaseParameters
+from tests.utils import DatabaseParameters, create_anime
 
 faker = Faker()
 
@@ -78,16 +78,13 @@ def session_middleware(db_session):
 
 @pytest.fixture
 def anime(db_session):
-    source_data = SourceDataQueries(db_session).get_source_data_by_name(imagination_source.name)
-
-    new_anime = Anime(
-        name=faker.pystr(),
-        num_episodes=faker.pyint(),
-        average_ep_duration=faker.pyint(),
-        source_data=source_data
-    )
-
-    db_session.add(new_anime)
-    db_session.commit()
+    new_anime = create_anime(db_session)
 
     return new_anime
+
+
+@pytest.fixture
+def animes(db_session):
+    anime_list = [create_anime(db_session) for _ in range(5)]
+
+    return anime_list

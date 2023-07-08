@@ -48,13 +48,13 @@ class TestCalculateTFA(BaseTest):
         response_calculate_tfa = response["data"]["CalculateTFA"]["result"]
 
         total_hours = (variables["numEpisodes"] * variables["averageMinutesPerEp"]) / 60
-        total_days = round(total_hours / 24, 2)
+        total_days = total_hours / 24
 
         days_predicted = round(total_hours / variables["availableHours"], 2)
 
         assert response_calculate_tfa["daysPredicted"] == days_predicted
         assert response_calculate_tfa["totalHours"] == total_hours
-        assert response_calculate_tfa["totalDays"] == total_days
+        assert response_calculate_tfa["totalDays"] == round(total_days, 2)
 
         new_anime: Anime = db_session.query(Anime).filter(Anime.name == variables["title"]).order_by(
             Anime.id.desc()).first()
