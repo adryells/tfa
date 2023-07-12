@@ -20,5 +20,4 @@ def load_source_data(session: Session):
         )
 
         session.add(new_source_data)
-
-    session.commit()
+        session.commit()

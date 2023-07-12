@@ -1,6 +1,7 @@
 import os
 from random import choice
 
+from dotenv import load_dotenv
 from loguru import logger
 from pydantic import BaseSettings
 
@@ -26,17 +27,19 @@ class AppConfig(BaseSettings):
 
 
 def get_config() -> AppConfig:
-    if os.getenv("TFA_TESTING") == '1':
-        logger.info("Pytest: Pytest detected! Setting/mangling the appropriate variables...")
+    load_dotenv()
 
-        random_str = "".join([choice("0123456789") for _ in range(10)])
+    if os.getenv("TFA_TESTING") == '1':
+        logger.info("Pytest detected! Setting the appropriate variables...")
+
+        random_str = "".join([choice("0123456789") for _ in range(6)])
 
         # Override database name and config name
-        os.environ["TFA_DATABASE_URL"] = f'postgresql+psycopg2://tfa:tfa#1234@127.0.0.1:5433/test_{random_str}'
+        os.environ["TFA_DATABASE_URL"] = f'postgresql+psycopg2://tfa:tfa#123@127.0.0.1:5432/test_{random_str}'
 
         os.environ["TFA_CONFIG_NAME"] = "TEST"
 
-        os.environ["BTLX_DEVELOPMENT"] = "0"
+        os.environ["TFA_DEVELOPMENT"] = "0"
 
     return AppConfig()
 
