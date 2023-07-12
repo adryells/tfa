@@ -16,7 +16,7 @@ from app.models.anime.basic import Anime
 from app.queries.source_data.source_data_queries import SourceDataQueries
 from app.services.router import graphql_app
 from main import app
-from tests.utils import DatabaseParameters, create_anime
+from tests.utils import DatabaseParameters, create_anime, create_request_change
 
 faker = Faker()
 
@@ -85,6 +85,20 @@ def anime(db_session):
 
 @pytest.fixture
 def animes(db_session):
-    anime_list = [create_anime(db_session) for _ in range(5)]
+    anime_list = [create_anime(db_session) for _ in range(4)]
 
     return anime_list
+
+
+@pytest.fixture
+def request_change(db_session, anime):
+    new_request_change = create_request_change(session=db_session, anime=anime)
+
+    return new_request_change
+
+
+@pytest.fixture
+def request_changes(db_session, anime):
+    new_request_change = [create_request_change(session=db_session, anime=anime) for _ in range(4)]
+
+    return new_request_change

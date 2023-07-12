@@ -1,5 +1,6 @@
 from app.controllers import BaseController
 from app.controllers.request_change.validator import RequestAnimeChangeData
+from app.database.queries.request_change_queries import RequestChangeQueries
 from app.models.anime.request_change import RequestChange
 from app.queries.anime.anime_queries import AnimeQueries
 
@@ -38,4 +39,29 @@ class RequestChangeController(BaseController):
         return request_change
 
     def get_request_changes(self, anime_id: int = None, page: int = None, per_page: int = None):
-        pass
+        self.validate_filters(page=page, per_page=per_page, anime_id=anime_id)
+
+        request_changes = RequestChangeQueries(self.session).get_request_changes(
+            page=page,
+            per_page=per_page,
+            anime_id=anime_id
+        )
+
+        return request_changes
+
+    def validate_filters(self, page: int = None, per_page: int = None, anime_id: int = None):
+        if (page is not None and per_page is not None) and (per_page < 1 or page < 1):
+            raise Exception("Invalid pagination.")
+
+        if anime_id:
+            existing_anime = AnimeQueries(self.session).check_anime_exists_with_id(anime_id=anime_id)
+
+            if not existing_anime:
+                raise Exception("Invalid anime id.")
+
+    def get_request_changes_count(self, anime_id: int = None):
+        self.validate_filters(anime_id=anime_id)
+
+        count = RequestChangeQueries(self.session).get_request_changes_count(anime_id=anime_id)
+
+        return count

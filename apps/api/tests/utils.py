@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.data.data import imagination_source
 from app.models.anime.basic import Anime
+from app.models.anime.request_change import RequestChange
 from app.queries.source_data.source_data_queries import SourceDataQueries
 
 fake = Faker()
@@ -49,3 +50,25 @@ def create_anime(session: Session):
     session.commit()
 
     return new_anime
+
+
+def create_request_change(session: Session, anime: Anime):
+    anime = anime or create_anime(session)
+
+    new_request_change = RequestChange(
+        anime=anime,
+        change_data={
+            "name": fake.pystr(),
+            "average_ep_duration": fake.pyint(min_value=1, max_value=200),
+            "num_episodes": fake.pyint(min_value=1, max_value=200),
+            "synopsys": fake.text(),
+            "image_url": fake.image_url()
+        },
+        reason=fake.pystr(),
+        additional_info=fake.pystr()
+    )
+
+    session.add(new_request_change)
+    session.commit()
+
+    return new_request_change

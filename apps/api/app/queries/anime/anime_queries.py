@@ -54,3 +54,10 @@ class AnimeQueries(BaseQueries):
         ).scalar()
 
         return exists
+
+    def check_anime_exists_with_id(self, anime_id: int) -> bool:
+        exists = self.session.query(
+            self.session.query(Anime.id).filter(Anime.id == anime_id).exists()
+        ).scalar()
+
+        return exists

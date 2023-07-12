@@ -6,8 +6,14 @@ from app.queries.source_data.source_data_queries import SourceDataQueries
 
 
 class AnimeController(BaseController):
-    def get_animes(self, sort_by: str = None, search: str = None) -> list[Anime]:
-        animes = AnimeQueries(self.session).get_animes(sort_by=sort_by, search=search)
+    def validate_filters(self, page: int = None, per_page: int = None):
+        if (page is not None and per_page is not None) and (per_page < 1 or page < 1):
+            raise Exception("Invalid pagination.")
+
+    def get_animes(self, sort_by: str = None, search: str = None, per_page: int = None, page: int = None) -> list[Anime]:
+        self.validate_filters(per_page=per_page, page=page)
+
+        animes = AnimeQueries(self.session).get_animes(sort_by=sort_by, search=search, per_page=per_page, page=page)
 
         return animes
 

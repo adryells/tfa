@@ -32,7 +32,7 @@ class Animes(ObjectType):
     ):
         anime_controller = AnimeController(info.context.session)
 
-        animes = anime_controller.get_animes(sort_by=sort_by, search=search)
+        animes = anime_controller.get_animes(sort_by=sort_by, search=search, per_page=per_page, page=page)
         count = anime_controller.get_animes_count(search=search)
 
         return gAnimes(

@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 
 from app.data import load_all_data
 from app.database.base_class import DbBaseModel
-from app.database.session import main_session
 
 
 def init_db(db_session: Session):
