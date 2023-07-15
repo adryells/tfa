@@ -14,7 +14,7 @@ class Anime(DbBaseModel, CreatedUpdatedDeletedMixin):
 
     name = Column(String, nullable=False)
 
-    related_media: list["MediaItem"] = relationship("MediaItem", backref="anime")
+    related_media: list["MediaItem"] = relationship("MediaItem", secondary="anime_medias")
 
     synopsis = Column(String)
 
