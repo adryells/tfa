@@ -9,10 +9,10 @@ class CreatedUpdatedDeletedMixin:
     deleted_at = Column(DateTime(timezone=True))
 
 
-def create_many_to_many_table(
-        basemodel: type[DbBaseModel],
+def create_linking_table(
         left: type[DbBaseModel],
         right: type[DbBaseModel],
+        basemodel: type[DbBaseModel] = DbBaseModel,
         ondelete: str | None = None,
         table_name: str | None = None
 ) -> Table:
