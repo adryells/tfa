@@ -15,3 +15,8 @@ class RoleQueries(BaseQueries):
         role = self.session.query(Role).filter(Role.name == name).one_or_none()
 
         return role
+
+    def get_role_by_id(self, role_id: int) -> Role:
+        role = self.session.query(Role).filter(Role.id == role_id).one_or_none()
+
+        return role

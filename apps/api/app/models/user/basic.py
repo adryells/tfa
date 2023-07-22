@@ -22,7 +22,7 @@ class User(DbBaseModel, CreatedUpdatedDeletedMixin):
     active = Column(Boolean, default=True, nullable=False)
 
     role_id = Column(Integer, ForeignKey("role.id"), nullable=False)
-    role: 'Role' = relationship("Role", foreign_keys=[role_id])
+    role: 'Role' = relationship("Role", foreign_keys=[role_id]) # noqa
 
     related_media = relationship("MediaItem", secondary="user_medias")
 
