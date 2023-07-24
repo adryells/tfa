@@ -1,5 +1,5 @@
 from app.database.queries import BaseQueries
-from app.models.media.basic import MediaItem
+from app.database.models.media.basic import MediaItem
 
 
 class MediaItemQueries(BaseQueries):

@@ -83,7 +83,7 @@ class Signup(Mutation):
     class Arguments:
         input_signup_data = InputSignupData()
 
-    user = gUser()
+    user = Field(gUser)
 
     def mutate(self, info: TFAGraphQLResolveInfo, input_signup_data: InputSignupData): # noqa
         validated_data = InputSignupDataValidator(**input_signup_data.__dict__)

@@ -1,9 +1,9 @@
 from app.database.mixins import create_linking_table
-from app.models.anime.basic import Anime
-from app.models.media.basic import MediaItem
-from app.models.permission.basic import Permission
-from app.models.role.basic import Role
-from app.models.user.basic import User
+from app.database.models.anime.basic import Anime
+from app.database.models.media.basic import MediaItem
+from app.database.models.permission.basic import Permission
+from app.database.models.role.basic import Role
+from app.database.models.user.basic import User
 
 user_medias = create_linking_table(User, MediaItem, table_name="user_medias")
 

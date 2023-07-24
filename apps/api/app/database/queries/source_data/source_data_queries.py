@@ -1,7 +1,7 @@
 from typing import Optional
 
 from app.database.queries import BaseQueries
-from app.models.data.basic import SourceData
+from app.database.models.data.basic import SourceData
 
 
 class SourceDataQueries(BaseQueries):

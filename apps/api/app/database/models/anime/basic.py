@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 
 from app.database.base_class import DbBaseModel
 from app.database.mixins import CreatedUpdatedDeletedMixin
-from app.models.data.basic import SourceData
+from app.database.models.data.basic import SourceData
 
 
 class Anime(DbBaseModel, CreatedUpdatedDeletedMixin):

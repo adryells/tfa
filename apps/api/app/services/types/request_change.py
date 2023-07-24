@@ -1,6 +1,6 @@
 from graphene import ObjectType, List
 
-from app.models.anime.request_change import RequestChange
+from app.database.models.anime.request_change import RequestChange
 from app.services.types.generic import IdAsInt, PaginationData
 
 

@@ -1,8 +1,8 @@
 from app.controllers import BaseController
 from app.data.data import users_source
-from app.models.anime.basic import Anime
-from app.queries.anime.anime_queries import AnimeQueries
-from app.queries.source_data.source_data_queries import SourceDataQueries
+from app.database.models.anime.basic import Anime
+from app.database.queries.anime.anime_queries import AnimeQueries
+from app.database.queries.source_data.source_data_queries import SourceDataQueries
 
 
 class AnimeController(BaseController):

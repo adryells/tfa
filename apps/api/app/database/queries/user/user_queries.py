@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Query
 
 from app.database.queries import BaseQueries
-from app.models.role.basic import Role
-from app.models.user.basic import User
+from app.database.models.role.basic import Role
+from app.database.models.user.basic import User
 
 
 class UserQueries(BaseQueries):
@@ -57,3 +57,8 @@ class UserQueries(BaseQueries):
         query = self._get_users_query(search=search)
 
         return query.count()
+
+    def get_user_by_email(self, email: str) -> User | None:
+        user = self.session.query(User).filter(User.email == email).one_or_none()
+
+        return user

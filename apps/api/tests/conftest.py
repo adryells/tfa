@@ -8,15 +8,12 @@ from starlette.testclient import TestClient
 
 from app.config import AppConfig, settings
 from app.data import load_prod_data
-from app.data.data import imagination_source
-from app.database.base_class import DbBaseModel
+from app.data.role import common
 from app.database.session import main_session, SessionLocal
 from app.database.utils import init_db
-from app.models.anime.basic import Anime
-from app.queries.source_data.source_data_queries import SourceDataQueries
 from app.services.router import graphql_app
 from main import app
-from tests.utils import DatabaseParameters, create_anime, create_request_change
+from tests.utils import DatabaseParameters, create_anime, create_request_change, create_user
 
 faker = Faker()
 
@@ -102,3 +99,17 @@ def request_changes(db_session, anime):
     new_request_change = [create_request_change(session=db_session, anime=anime) for _ in range(4)]
 
     return new_request_change
+
+
+@pytest.fixture
+def common_user(db_session):
+    user = create_user(db_session, name=common.name)
+
+    return user
+
+
+@pytest.fixture
+def multiple_users(db_session):
+    user = [create_user(db_session, name=common.name) for _ in range(5)]
+
+    return user

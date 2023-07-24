@@ -1,11 +1,11 @@
 from app.controllers import BaseController
 from app.data.media_type import profile_picture
 from app.data.role import admin, common
+from app.database.queries.role.role_queries import RoleQueries
+from app.database.queries.user.user_queries import UserQueries
 from app.dto.user_dto import InputCreateUserDataValidator, InputUpdateUserDataValidator, InputSignupDataValidator
-from app.models.user.basic import User
-from app.queries.media_item.media_item_queries import MediaItemQueries
-from app.queries.role.role_queries import RoleQueries
-from app.queries.user.user_queries import UserQueries
+from app.database.models.user.basic import User
+from app.database.queries.media_item.media_item_queries import MediaItemQueries
 
 
 class UserController(BaseController):
@@ -155,7 +155,7 @@ class UserController(BaseController):
 
         self.session.commit()
 
-    def get_users(self, page: int, per_page: int, search: str):
+    def get_users(self, page: int, per_page: int, search: str) -> list[User]:
         self._validate_filters(page=page, per_page=per_page)
 
         users = UserQueries(self.session).get_users(page=page, per_page=per_page, search=search)
@@ -166,7 +166,7 @@ class UserController(BaseController):
         if (page is not None and per_page is not None) and (page < 1 or per_page < 1):
             raise Exception("Invalid Pagination.")
 
-    def get_users_count(self, search: str):
+    def get_users_count(self, search: str) -> int:
         count = UserQueries(self.session).get_users_count(search=search)
 
         return count

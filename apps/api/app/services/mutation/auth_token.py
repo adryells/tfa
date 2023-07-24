@@ -1,5 +1,7 @@
-from graphene import Mutation, InputObjectType, String, Boolean, Field
+from graphene import Mutation, InputObjectType, String, Field
 
+from app.controllers.auth_token.auth_token_controller import AuthTokenController
+from app.services.types.auth_token import gAuthToken
 from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 
 
@@ -14,7 +16,6 @@ class Login(Mutation):
 
     auth_token = Field(gAuthToken)
 
-    # busca usuario, ve se senha bate e gera token (desativa os existentes, cria o auth_token, gera e usa)
     def mutate(self, info: TFAGraphQLResolveInfo, input_login_data: InputLoginData):
         token = AuthTokenController(info.context.session).login(
             password=input_login_data.password,
@@ -23,12 +24,3 @@ class Login(Mutation):
         )
 
         return Login(auth_token=token)
-
-
-class Logout(Mutation):
-    success = Boolean()
-
-    def mutate(self, info: TFAGraphQLResolveInfo):
-        AuthTokenController(info.context.session).deactivate_auth_tokens(user_id=info.context.user.id)
-
-        return Logout(success=True)

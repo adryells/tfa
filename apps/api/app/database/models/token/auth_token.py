@@ -24,8 +24,12 @@ class AuthToken(DbBaseModel, CreatedUpdatedDeletedMixin):
     def use(self):
         self.updated_at = datetime.now(timezone.utc)
 
+        return self
+
     def generate(self):
         self.token = hashlib.sha256(str(uuid.uuid4()).encode("utf8")).hexdigest()
+
+        return self
 
     def deactivate(self):
         self.active = False

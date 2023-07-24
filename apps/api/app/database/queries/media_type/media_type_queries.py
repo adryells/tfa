@@ -1,5 +1,5 @@
 from app.database.queries import BaseQueries
-from app.models.media.media_type import MediaType
+from app.database.models.media.media_type import MediaType
 
 
 class MediaTypeQueries(BaseQueries):

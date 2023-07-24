@@ -9,7 +9,6 @@ class User(ObjectType):
     user = Field(gUser, user_id=Int(required=True))
     users = Field(
         Users,
-        user_id=Int(required=True),
         search=String(),
         page=Int(default_value=1),
         per_page=Int(default_value=50)

@@ -1,5 +1,5 @@
 from app.database.queries import BaseQueries
-from app.models.role.basic import Role
+from app.database.models.role.basic import Role
 
 
 class RoleQueries(BaseQueries):

@@ -2,9 +2,9 @@ from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.data.role import role_datas
-from app.models.role.basic import Role
-from app.queries.permission.permission_queries import PermissionQueries
-from app.queries.role.role_queries import RoleQueries
+from app.database.models.role.basic import Role
+from app.database.queries.permission.permission_queries import PermissionQueries
+from app.database.queries.role.role_queries import RoleQueries
 
 
 def load_roles(session: Session):

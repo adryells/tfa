@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Query
 
 from app.database.queries import BaseQueries
-from app.models.anime.request_change import RequestChange
+from app.database.models.anime.request_change import RequestChange
 
 
 class RequestChangeQueries(BaseQueries):

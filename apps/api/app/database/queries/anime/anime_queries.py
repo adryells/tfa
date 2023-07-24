@@ -1,8 +1,8 @@
 from sqlalchemy import asc, desc
 from sqlalchemy.orm import Query
 
+from app.database.models.anime.basic import Anime
 from app.database.queries import BaseQueries
-from app.models.anime.basic import Anime
 
 
 class AnimeQueries(BaseQueries):

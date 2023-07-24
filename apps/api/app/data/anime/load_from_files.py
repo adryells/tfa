@@ -6,11 +6,11 @@ from sqlalchemy.orm import Session
 
 from app.data.anime.load_animes import generate_related_media
 from app.data.data import mal_source
+from app.database.queries.source_data.source_data_queries import SourceDataQueries
 from app.database.session import main_session
 from app.libs.mal import MalAPI
-from app.models.anime.basic import Anime
-from app.queries.anime.anime_queries import AnimeQueries
-from app.queries.source_data.source_data_queries import SourceDataQueries
+from app.database.models.anime.basic import Anime
+from app.database.queries.anime.anime_queries import AnimeQueries
 
 mal_api = MalAPI()
 

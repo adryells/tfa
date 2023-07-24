@@ -1,5 +1,5 @@
 from app.database.queries import BaseQueries
-from app.models.permission.basic import Permission
+from app.database.models.permission.basic import Permission
 
 
 class PermissionQueries(BaseQueries):

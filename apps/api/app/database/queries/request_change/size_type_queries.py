@@ -1,5 +1,5 @@
 from app.database.queries import BaseQueries
-from app.models.media.size_type import SizeType
+from app.database.models.media.size_type import SizeType
 
 
 class SizeTypeQueries(BaseQueries):

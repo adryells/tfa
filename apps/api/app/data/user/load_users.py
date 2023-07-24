@@ -2,9 +2,9 @@ from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.data.user import UserData
-from app.models.user.basic import User
-from app.queries.role.role_queries import RoleQueries
-from app.queries.user.user_queries import UserQueries
+from app.database.models.user.basic import User
+from app.database.queries.role.role_queries import RoleQueries
+from app.database.queries.user.user_queries import UserQueries
 
 
 def load_users(session: Session, user_datas: list[UserData]):
