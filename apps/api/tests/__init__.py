@@ -6,7 +6,7 @@ from graphene import ObjectType, NonNull
 from starlette.testclient import TestClient
 
 from app.database.base_class import DbBaseModel
-from app.utils.string import to_lower_camel_case
+from app.utils.string_utils import to_lower_camel_case
 
 
 class BaseTest:

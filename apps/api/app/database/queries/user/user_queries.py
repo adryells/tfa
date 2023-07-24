@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Query
 
 from app.database.queries import BaseQueries
@@ -8,13 +9,13 @@ from app.database.models.user.basic import User
 class UserQueries(BaseQueries):
     def check_user_exists_by_username(self, username: str) -> bool:
         exists = self.session.query(
-            self.session.query(User.username).filter(User.username == username).exists()
+            self.session.query(User.username).filter(func.lower(User.username) == username.lower()).exists()
         ).scalar()
 
         return exists
 
     def get_user_by_username(self, username: str) -> User | None:
-        user = self.session.query(User).filter(User.username == username).one_or_none()
+        user = self.session.query(User).filter(func.lower(User.username) == username.lower()).one_or_none()
 
         return user
 
@@ -32,7 +33,7 @@ class UserQueries(BaseQueries):
 
     def check_user_exists_by_email(self, email: str) -> bool:
         exists = self.session.query(
-            self.session.query(User.email).filter(User.email == email).exists()
+            self.session.query(User.email).filter(func.lower(User.email) == email.lower()).exists()
         ).scalar()
 
         return exists
@@ -59,6 +60,6 @@ class UserQueries(BaseQueries):
         return query.count()
 
     def get_user_by_email(self, email: str) -> User | None:
-        user = self.session.query(User).filter(User.email == email).one_or_none()
+        user = self.session.query(User).filter(func.lower(User.email) == email.lower()).one_or_none()
 
         return user

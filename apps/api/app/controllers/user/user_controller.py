@@ -29,6 +29,7 @@ class UserController(BaseController):
             raise Exception("Media is not in valid type.")
 
     def create_user(self, data: InputCreateUserDataValidator) -> User:
+        self._check_if_key_is_already_in_use(username=data.username, email=data.email)
         role = RoleQueries(self.session).get_role_by_id(data.role_id)
 
         if not role:
@@ -53,19 +54,17 @@ class UserController(BaseController):
 
         return new_user
 
-    # TODO: Dá pra dar uma refatoradinha pra n precisar da gambi e continuar reduzido o código
     def signup(self, data: InputSignupDataValidator) -> User:
+        self._check_if_key_is_already_in_use(username=data.username, email=data.email)
         role = RoleQueries(self.session).get_role_by_name(common.name)
 
         user = User(
             role=role, # noqa
-            username="gambi", # noqa
-            email="gambi@tfa.tfa" # noqa
+            username=data.username, # noqa
+            email=data.email # noqa
         )
 
         user.set_password(data.password)
-        self.update_user_email(user, data.email)
-        self.update_user_username(user, data.username)
 
         self.session.add(user)
         self.session.commit()
@@ -102,20 +101,25 @@ class UserController(BaseController):
 
         return updating_user
 
+    def _check_if_key_is_already_in_use(self, username: str = None, email: str = None):
+        if username:
+            username_in_use = UserQueries(self.session).check_user_exists_by_username(username=username)
+
+            if username_in_use:
+                raise Exception("Username already in use.")
+
+        if email:
+            email_in_use = UserQueries(self.session).check_user_exists_by_email(email=email)
+
+            if email_in_use:
+                raise Exception("Email already in use.")
+
     def update_user_username(self, updating_user: User, username: str):
-        username_in_use = UserQueries(self.session).check_user_exists_by_username(username=username)
-
-        if username_in_use:
-            raise Exception("Username already in use.")
-
+        self._check_if_key_is_already_in_use(username=username)
         updating_user.username = username
 
     def update_user_email(self, updating_user: User, email: str):
-        email_in_use = UserQueries(self.session).check_user_exists_by_email(email=email)
-
-        if email_in_use:
-            raise Exception("Email already in use.")
-
+        self._check_if_key_is_already_in_use(email=email)
         updating_user.email = email
 
     def update_user_password(self, updating_user: User, current_password: str, new_password: str): # noqa

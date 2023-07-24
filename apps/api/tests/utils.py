@@ -14,30 +14,6 @@ from app.database.queries.source_data.source_data_queries import SourceDataQueri
 fake = Faker()
 
 
-class DatabaseParameters(BaseModel):
-    schema_name: str = "postgresql"
-    user: str
-    password: str
-    host: str
-    port: int
-    db_name: str
-
-    @classmethod
-    def from_db_url(cls, database_url: str) -> 'DatabaseParameters':
-        schema, _, user, password, host, port, db_name = re.search(
-            r"(.*?)\+(.*?)\:\/\/(.*?)\:(.*?)\@(.*)\:(.*)\/(.*)", database_url
-        ).groups()
-
-        return cls(
-            schema_name=schema,
-            user=user,
-            password=password,
-            host=host,
-            port=port,
-            db_name=db_name
-        )
-
-
 def format_date_graphql(string_date: str):
     return "T".join(str(string_date).split(" "))
 
@@ -80,8 +56,8 @@ def create_request_change(session: Session, anime: Anime):
     return new_request_change
 
 
-def create_user(session: Session, name: str) -> User:
-    role = RoleQueries(session).get_role_by_name(name)
+def create_user(session: Session, role_name: str) -> User:
+    role = RoleQueries(session).get_role_by_name(role_name)
 
     new_user = User(
         role=role,

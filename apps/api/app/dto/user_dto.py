@@ -1,7 +1,48 @@
+import re
+
 from pydantic import BaseModel, validate_email, validator
 
+from app.dto import BaseValidator
 
-class InputCreateUserDataValidator(BaseModel):
+
+def validate_username(username: str):
+    stripped_username = username.strip()
+
+    if len(stripped_username) < 3:
+        raise Exception("Username's length must be a minimum of 3 characters.")
+
+    return stripped_username
+
+
+def validate_user_email(email: str):
+    value = email.strip().lower()
+
+    try:
+        validate_email(value)
+
+    except Exception as _:
+        raise Exception("Invalid Email.")
+
+    return value
+
+
+def validate_password(password: str):
+    if not password.strip() or len(password) < 8:
+        raise Exception("Password must have at least 8 characters.")
+
+    if not any(char.isupper() for char in password) or not any(char.islower() for char in password):
+        raise Exception("Password must contain both uppercase and lowercase letters.")
+
+    if not any(char.isdigit() for char in password):
+        raise Exception("Password must contain numbers.")
+
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        raise Exception("Password must contain special characters.")
+
+    return password
+
+
+class InputCreateUserDataValidator(BaseValidator):
     username: str
 
     email: str
@@ -16,33 +57,19 @@ class InputCreateUserDataValidator(BaseModel):
 
     @validator("username")
     def validate_username(cls, value: str): # noqa
-        if not value.strip():
-            raise Exception("Username can't be blank.")
-
-        return value.lower().capitalize()
+        return validate_username(value)
 
     @validator("email")
     def validate_email(cls, value: str): # noqa
-        value = value.strip().lower()
-
-        if not validate_email(value):
-            raise Exception("Invalid Email.")
-
-        return value
+        return validate_user_email(value)
 
     @validator("password")
     def validate_password(cls, value: str): # noqa
-        if not value.strip() or len(value) < 8:
-            raise Exception("Invalid Password.")
-
-        return value
+        return validate_password(value)
 
     @validator("role_id", "profile_picture_id")
-    def validate_id(cls, value: int): # noqa
-        if value <= 0:
-            raise Exception("Invalid id.")
-
-        return value
+    def validate_value_id(cls, value: int): # noqa
+        return cls.validate_id(value)
 
 
 class InputPasswordDataValidator(BaseModel):
@@ -52,10 +79,7 @@ class InputPasswordDataValidator(BaseModel):
 
     @validator("current_password", "new_password")
     def validate_new_password(cls, value: str): # noqa
-        if not value.strip() or len(value) < 8:
-            raise Exception("Invalid Password.")
-
-        return value
+        return validate_password(value)
 
 
 class InputUpdateUserDataValidator(InputCreateUserDataValidator):
@@ -78,7 +102,6 @@ class InputUpdateUserDataValidator(InputCreateUserDataValidator):
         return value
 
 
-# TODO: Dá pra refatorar e amenizar a repetição de código
 class InputSignupDataValidator(BaseModel):
     email: str
     username: str
@@ -86,23 +109,12 @@ class InputSignupDataValidator(BaseModel):
 
     @validator("username")
     def validate_username(cls, value: str): # noqa
-        if not value.strip():
-            raise Exception("Username can't be blank.")
-
-        return value.lower().capitalize()
+        return validate_username(value)
 
     @validator("email")
     def validate_email(cls, value: str): # noqa
-        value = value.strip().lower()
-
-        if not validate_email(value):
-            raise Exception("Invalid Email.")
-
-        return value
+        return validate_user_email(value)
 
     @validator("password")
     def validate_password(cls, value: str): # noqa
-        if not value.strip() or len(value) < 8:
-            raise Exception("Invalid Password.")
-
-        return value
+        return validate_password(value)

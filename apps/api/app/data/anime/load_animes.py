@@ -12,6 +12,7 @@ from app.database.models.media.basic import MediaItem
 from app.database.queries.media_type.media_type_queries import MediaTypeQueries
 from app.database.queries.request_change.size_type_queries import SizeTypeQueries
 from app.database.queries.source_data.source_data_queries import SourceDataQueries
+from app.database.queries.user.user_queries import UserQueries
 
 fake = Faker()
 
