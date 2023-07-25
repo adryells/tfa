@@ -2,7 +2,7 @@ import pytest
 from faker import Faker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy_utils import database_exists, create_database, drop_database
+from sqlalchemy_utils import drop_database, create_database, database_exists
 from starlette.testclient import TestClient
 
 from app.config import AppConfig, settings
