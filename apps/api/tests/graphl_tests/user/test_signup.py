@@ -3,14 +3,9 @@ import pytest
 from app.data.role import common
 from app.database.queries.role.role_queries import RoleQueries
 from app.database.queries.user.user_queries import UserQueries
+from app.utils.string_utils import INVALID_LENGTH, MISSING_NUMBERS, MISSING_CASE_LETTER, MISSING_SPECIAL_CHARACTERS
 from tests import BaseTest
 from tests.utils import format_date_graphql
-
-# FAIL PASSWORD REASONS
-INVALID_LENGTH = "Password must have at least 8 characters."
-MISSING_CASE_LETTER = "Password must contain both uppercase and lowercase letters."
-MISSING_NUMBERS = "Password must contain numbers."
-MISSING_SPECIAL_CHARACTERS = "Password must contain special characters."
 
 
 class TestSignup(BaseTest):

@@ -30,12 +30,14 @@ class UserController(BaseController):
 
     def create_user(self, data: InputCreateUserDataValidator) -> User:
         self._check_if_key_is_already_in_use(username=data.username, email=data.email)
+
         role = RoleQueries(self.session).get_role_by_id(data.role_id)
 
         if not role:
             raise Exception("Role not found.")
 
         self.check_media_exists_and_is_type(type_name=profile_picture.name, media_id=data.profile_picture_id)
+        new_profile_picture = MediaItemQueries(self.session).get_media_item_by_id(data.profile_picture_id)
 
         new_user = User(
             username=data.username, # noqa
@@ -43,8 +45,6 @@ class UserController(BaseController):
             active=data.active, # noqa
             role=role # noqa
         )
-
-        new_profile_picture = MediaItemQueries(self.session).get_media_item_by_id(data.profile_picture_id)
 
         new_user.related_media.append(new_profile_picture)
         new_user.set_password(data.password)

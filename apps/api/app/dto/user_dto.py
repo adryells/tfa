@@ -69,7 +69,9 @@ class InputCreateUserDataValidator(BaseValidator):
 
     @validator("role_id", "profile_picture_id")
     def validate_value_id(cls, value: int): # noqa
-        return cls.validate_id(value)
+        cls.validate_id(value)
+
+        return value
 
 
 class InputPasswordDataValidator(BaseModel):

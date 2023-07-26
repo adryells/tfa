@@ -5,9 +5,14 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.data.data import imagination_source
+from app.data.media_type import anime_picture
+from app.data.size_type import medium
 from app.database.models.anime.basic import Anime
 from app.database.models.anime.request_change import RequestChange
+from app.database.models.media.basic import MediaItem
 from app.database.models.user.basic import User
+from app.database.queries.media_type.media_type_queries import MediaTypeQueries
+from app.database.queries.request_change.size_type_queries import SizeTypeQueries
 from app.database.queries.role.role_queries import RoleQueries
 from app.database.queries.source_data.source_data_queries import SourceDataQueries
 
@@ -69,3 +74,21 @@ def create_user(session: Session, role_name: str) -> User:
     session.commit()
 
     return new_user
+
+
+def create_media_item(session: Session, creator: User, media_type_slug: str = anime_picture.name) -> MediaItem:
+    media_type = MediaTypeQueries(session).get_media_type_by_name(media_type_slug)
+    size_type = SizeTypeQueries(session).get_size_type_by_name(medium.name)
+
+    media_item = MediaItem(
+        url=fake.image_url(),
+        title=fake.pystr(),
+        media_type=media_type,
+        creator=creator,
+        size_type=size_type
+    )
+
+    session.add(media_item)
+    session.commit()
+
+    return media_item
