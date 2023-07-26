@@ -1,17 +1,18 @@
 from datetime import datetime, timezone
 
 from sqlalchemy import Column, Integer, ForeignKey, Table, DateTime, func
+from sqlalchemy_easy_softdelete.mixin import generate_soft_delete_mixin_class
 
 from app.database.base_class import DbBaseModel
 
 
-class CreatedUpdatedDeletedMixin:
+class SoftDeleteMixin(generate_soft_delete_mixin_class()):
+    deleted_at: datetime
+
+
+class CreatedUpdatedDeletedMixin(SoftDeleteMixin):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    deleted_at = Column(DateTime(timezone=True))
-
-    def delete(self):
-        self.deleted_at = datetime.now(timezone.utc)
 
 
 def create_linking_table(
