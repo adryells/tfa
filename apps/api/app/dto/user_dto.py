@@ -6,38 +6,41 @@ from app.dto import BaseValidator
 
 
 def validate_username(username: str):
-    stripped_username = username.strip()
+    if username:
+        username = username.strip()
 
-    if len(stripped_username) < 3:
-        raise Exception("Username's length must be a minimum of 3 characters.")
+        if len(username) < 3:
+            raise Exception("Username's length must be a minimum of 3 characters.")
 
-    return stripped_username
+    return username
 
 
 def validate_user_email(email: str):
-    value = email.strip().lower()
+    if email:
+        email = email.strip().lower()
 
-    try:
-        validate_email(value)
+        try:
+            validate_email(email)
 
-    except Exception as _:
-        raise Exception("Invalid Email.")
+        except Exception as _:
+            raise Exception("Invalid Email.")
 
-    return value
+    return email
 
 
 def validate_password(password: str):
-    if not password.strip() or len(password) < 8:
-        raise Exception("Password must have at least 8 characters.")
+    if password:
+        if not password.strip() or len(password) < 8:
+            raise Exception("Password must have at least 8 characters.")
 
-    if not any(char.isupper() for char in password) or not any(char.islower() for char in password):
-        raise Exception("Password must contain both uppercase and lowercase letters.")
+        if not any(char.isupper() for char in password) or not any(char.islower() for char in password):
+            raise Exception("Password must contain both uppercase and lowercase letters.")
 
-    if not any(char.isdigit() for char in password):
-        raise Exception("Password must contain numbers.")
+        if not any(char.isdigit() for char in password):
+            raise Exception("Password must contain numbers.")
 
-    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        raise Exception("Password must contain special characters.")
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+            raise Exception("Password must contain special characters.")
 
     return password
 
@@ -93,15 +96,13 @@ class InputUpdateUserDataValidator(InputCreateUserDataValidator):
 
     input_password: InputPasswordDataValidator | None
 
+    password: None = None
+
     role_id: int | None
 
     profile_picture_id: int | None
 
     active: bool | None
-
-    @validator("password")
-    def validate_password(cls, value: str): # noqa
-        return value
 
 
 class InputSignupDataValidator(BaseModel):

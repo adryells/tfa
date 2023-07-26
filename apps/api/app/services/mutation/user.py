@@ -1,7 +1,9 @@
 from graphene import Mutation, Field, InputObjectType, String, Boolean, Int
 
 from app.controllers.user.user_controller import UserController
+from app.data.permission import update_user
 from app.dto.user_dto import InputUpdateUserDataValidator, InputCreateUserDataValidator, InputSignupDataValidator
+from app.services.auth import graphql_authorizator
 from app.services.types.user import gUser
 from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 
@@ -56,6 +58,7 @@ class UpdateUser(Mutation):
 
     user = Field(gUser)
 
+    @graphql_authorizator(update_user.name)
     def mutate(self, info: TFAGraphQLResolveInfo, input_update_user_data: InputCreateUserData): # noqa
         validated_data = InputUpdateUserDataValidator(**input_update_user_data.__dict__)
 

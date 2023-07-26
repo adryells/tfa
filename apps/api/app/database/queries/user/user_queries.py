@@ -1,6 +1,7 @@
 from sqlalchemy import func
 from sqlalchemy.orm import Query
 
+from app.database.models.token.auth_token import AuthToken
 from app.database.queries import BaseQueries
 from app.database.models.role.basic import Role
 from app.database.models.user.basic import User
@@ -61,5 +62,13 @@ class UserQueries(BaseQueries):
 
     def get_user_by_email(self, email: str) -> User | None:
         user = self.session.query(User).filter(func.lower(User.email) == email.lower()).one_or_none()
+
+        return user
+
+    def get_user_by_token(self, token: str) -> User:
+        user = self.session.query(User)\
+            .join(AuthToken)\
+            .filter(AuthToken.active == True, AuthToken.token == token)\
+            .first()
 
         return user

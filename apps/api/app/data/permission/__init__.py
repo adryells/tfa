@@ -34,6 +34,11 @@ update_anime_data = PermissionData(
     description="Allows a user update an anime."
 )
 
+update_user = PermissionData(
+    name="Update user",
+    description="Allows a user update self or another user."
+)
+
 permission_datas = [
     get_users,
     get_animes,
