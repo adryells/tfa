@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from app.data.permission import PermissionData, permission_datas, get_request_changes, approve_request_changes, \
-    update_anime_data
+    update_anime_data, update_request_change, delete_user, create_user
 
 all_permissions = permission_datas
 
@@ -30,8 +30,10 @@ common = RoleData(
     description="A simple user with basic permissions for some read/write actions.",
     excluded=[
         get_request_changes,
-        approve_request_changes,
-        update_anime_data
+        update_anime_data,
+        update_request_change,
+        delete_user,
+        create_user
     ]
 )
 

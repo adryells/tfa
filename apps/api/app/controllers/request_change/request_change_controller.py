@@ -65,3 +65,11 @@ class RequestChangeController(BaseController):
         count = RequestChangeQueries(self.session).get_request_changes_count(anime_id=anime_id)
 
         return count
+
+    def update_request_change(self, request_change_id: int, accepted: bool) -> RequestChange:
+        request_change = self.get_request_change_by_id(request_change_id)
+
+        request_change.accepted = accepted
+        request_change.active = False
+
+        return request_change
