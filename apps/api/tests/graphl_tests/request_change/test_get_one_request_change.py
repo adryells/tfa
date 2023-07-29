@@ -23,7 +23,7 @@ class TestGetOneRequestChange(BaseTest):
 
     def test_get_one_request_change_success(self, client, request_change):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables={"requestChangeId": request_change.id},
             query=self.query
         )

@@ -1,6 +1,6 @@
 import pytest
 
-from app.database.queries.request_change_queries import RequestChangeQueries
+from app.database.queries.request_change.request_change_queries import RequestChangeQueries
 from tests import BaseTest
 
 
@@ -38,7 +38,7 @@ class TestGetMultipleRequestChange(BaseTest):
 
     def test_get_multiple_request_change(self, client, db_session, request_changes, variables):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
             query=self.query
         )
@@ -65,4 +65,13 @@ class TestGetMultipleRequestChange(BaseTest):
             error_message="Invalid anime id.",
             variables={"animeId": 100},
             query=self.query
+        )
+
+    @pytest.mark.parametrize("page, per_page", [(0, 1), (1, 0)])
+    def test_get_request_changes_with_invalid_pagination(self, client, page, per_page):
+        self.assert_response_error(
+            client=client,
+            query=self.query,
+            variables={"page": page, "perPage": per_page},
+            error_message="Invalid pagination."
         )

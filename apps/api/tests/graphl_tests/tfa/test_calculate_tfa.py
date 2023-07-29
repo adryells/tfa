@@ -3,8 +3,8 @@ from typing import Any
 import pytest
 
 from app.data.data import users_source
-from app.models.anime.basic import Anime
-from app.queries.source_data.source_data_queries import SourceDataQueries
+from app.database.models.anime.basic import Anime
+from app.database.queries.source_data.source_data_queries import SourceDataQueries
 from tests import BaseTest
 
 
@@ -74,7 +74,7 @@ class TestCalculateTFA(BaseTest):
     def test_calculate_tfa_success(self, client, db_session, variables):
         response = self.request_api(
             query=self.query,
-            test_client=client,
+            client=client,
             variables=variables
         )
 
@@ -85,7 +85,7 @@ class TestCalculateTFA(BaseTest):
 
         response = self.request_api(
             query=self.query,
-            test_client=client,
+            client=client,
             variables=variables
         )
 

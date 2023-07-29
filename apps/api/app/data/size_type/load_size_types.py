@@ -2,8 +2,8 @@ from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.data.size_type import size_types
-from app.database.queries.size_type_queries import SizeTypeQueries
-from app.models.media.size_type import SizeType
+from app.database.models.media.size_type import SizeType
+from app.database.queries.request_change.size_type_queries import SizeTypeQueries
 
 
 def load_size_types(session: Session):

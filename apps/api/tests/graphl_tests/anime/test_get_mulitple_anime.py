@@ -1,6 +1,6 @@
 import pytest
 
-from app.queries.anime.anime_queries import AnimeQueries
+from app.database.queries.anime.anime_queries import AnimeQueries
 from tests import BaseTest
 
 
@@ -54,10 +54,12 @@ class TestMultipleAnime(BaseTest):
         variables["search"] = animes[0].name[0]
 
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
             query=self.query
         )
+
+        assert not response.get("errors")
 
         assert response["data"]["Animes"]["animes"]
 
@@ -80,4 +82,13 @@ class TestMultipleAnime(BaseTest):
             reverse_list_condition=sorting_option if "_DESC" in sorting_option else sorting_parameter + "_DESC",
             sorting_parameter=sorting_parameter,
             response_list=items
+        )
+
+    @pytest.mark.parametrize("page, per_page", [(0, 1), (1, 0)])
+    def test_get_animes_with_invalid_pagination(self, client, page, per_page):
+        self.assert_response_error(
+            client=client,
+            query=self.query,
+            variables={"page": page, "perpage": per_page},
+            error_message="Invalid pagination."
         )

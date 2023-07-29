@@ -2,8 +2,8 @@ from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.data.data import sources
-from app.models.data.basic import SourceData
-from app.queries.source_data.source_data_queries import SourceDataQueries
+from app.database.models.data.basic import SourceData
+from app.database.queries.source_data.source_data_queries import SourceDataQueries
 
 
 def load_source_data(session: Session):

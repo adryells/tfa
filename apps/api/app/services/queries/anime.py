@@ -7,7 +7,7 @@ from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 
 
 class Animes(ObjectType):
-    anime = Field(gAnime, anime_id=Int(required=True))
+    anime = Field(gAnime, anime_id=Argument(Int(required=True)))
 
     animes = Field(
         gAnimes,

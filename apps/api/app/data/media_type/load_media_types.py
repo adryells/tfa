@@ -2,8 +2,8 @@ from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.data.media_type import media_type_datas
-from app.models.media.media_type import MediaType
-from app.queries.media_type.media_type_queries import MediaTypeQueries
+from app.database.models.media.media_type import MediaType
+from app.database.queries.media_type.media_type_queries import MediaTypeQueries
 
 
 def load_media_types(session: Session):

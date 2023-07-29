@@ -7,12 +7,12 @@ from app.data.data import imagination_source
 from app.data.media_type import anime_picture
 from app.data.size_type import medium, large
 from app.data.user import admin
-from app.database.queries.size_type_queries import SizeTypeQueries
-from app.models.anime.basic import Anime
-from app.models.media.basic import MediaItem
-from app.queries.media_type.media_type_queries import MediaTypeQueries
-from app.queries.source_data.source_data_queries import SourceDataQueries
-from app.queries.user.user_queries import UserQueries
+from app.database.models.anime.basic import Anime
+from app.database.models.media.basic import MediaItem
+from app.database.queries.media_type.media_type_queries import MediaTypeQueries
+from app.database.queries.request_change.size_type_queries import SizeTypeQueries
+from app.database.queries.source_data.source_data_queries import SourceDataQueries
+from app.database.queries.user.user_queries import UserQueries
 
 fake = Faker()
 

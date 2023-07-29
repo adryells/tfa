@@ -1,8 +1,8 @@
 from app.controllers import BaseController
 from app.controllers.request_change.validator import RequestAnimeChangeData
-from app.database.queries.request_change_queries import RequestChangeQueries
-from app.models.anime.request_change import RequestChange
-from app.queries.anime.anime_queries import AnimeQueries
+from app.database.models.anime.request_change import RequestChange
+from app.database.queries.anime.anime_queries import AnimeQueries
+from app.database.queries.request_change.request_change_queries import RequestChangeQueries
 
 
 class RequestChangeController(BaseController):

@@ -2,8 +2,8 @@ from loguru import logger
 from sqlalchemy.orm import Session
 
 from app.data.permission import permission_datas
-from app.models.permission.basic import Permission
-from app.queries.permission.permission_queries import PermissionQueries
+from app.database.models.permission.basic import Permission
+from app.database.queries.permission.permission_queries import PermissionQueries
 
 
 def load_permissions(session: Session):

@@ -5,35 +5,23 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.data.data import imagination_source
-from app.models.anime.basic import Anime
-from app.models.anime.request_change import RequestChange
-from app.queries.source_data.source_data_queries import SourceDataQueries
+from app.data.media_type import anime_picture
+from app.data.size_type import medium
+from app.database.models.anime.basic import Anime
+from app.database.models.anime.request_change import RequestChange
+from app.database.models.media.basic import MediaItem
+from app.database.models.token.auth_token import AuthToken
+from app.database.models.user.basic import User
+from app.database.queries.media_type.media_type_queries import MediaTypeQueries
+from app.database.queries.request_change.size_type_queries import SizeTypeQueries
+from app.database.queries.role.role_queries import RoleQueries
+from app.database.queries.source_data.source_data_queries import SourceDataQueries
 
 fake = Faker()
 
 
-class DatabaseParameters(BaseModel):
-    schema_name: str = "postgresql"
-    user: str
-    password: str
-    host: str
-    port: int
-    db_name: str
-
-    @classmethod
-    def from_db_url(cls, database_url: str) -> 'DatabaseParameters':
-        schema, _, user, password, host, port, db_name = re.search(
-            r"(.*?)\+(.*?)\:\/\/(.*?)\:(.*?)\@(.*)\:(.*)\/(.*)", database_url
-        ).groups()
-
-        return cls(
-            schema_name=schema,
-            user=user,
-            password=password,
-            host=host,
-            port=port,
-            db_name=db_name
-        )
+def format_date_graphql(string_date: str):
+    return "T".join(str(string_date).split(" "))
 
 
 def create_anime(session: Session):
@@ -72,3 +60,50 @@ def create_request_change(session: Session, anime: Anime):
     session.commit()
 
     return new_request_change
+
+
+def create_user(session: Session, role_name: str) -> User:
+    role = RoleQueries(session).get_role_by_name(role_name)
+
+    new_user = User(
+        role=role,
+        username=fake.pystr(),
+        email=fake.email()
+    ).set_password("12345678")
+
+    session.add(new_user)
+    session.commit()
+
+    return new_user
+
+
+def create_media_item(session: Session, creator: User, media_type_slug: str = anime_picture.name) -> MediaItem:
+    media_type = MediaTypeQueries(session).get_media_type_by_name(media_type_slug)
+    size_type = SizeTypeQueries(session).get_size_type_by_name(medium.name)
+
+    media_item = MediaItem(
+        url=fake.image_url(),
+        title=fake.pystr(),
+        media_type=media_type,
+        creator=creator,
+        size_type=size_type
+    )
+
+    session.add(media_item)
+    session.commit()
+
+    return media_item
+
+
+def create_auth_token(session: Session, user: User) -> AuthToken:
+    auth_token = AuthToken(
+        user=user,
+        ip_address=fake.ipv4(),
+    )
+
+    auth_token.generate().use()
+
+    session.add(auth_token)
+    session.commit()
+
+    return auth_token

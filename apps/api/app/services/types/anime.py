@@ -1,10 +1,10 @@
 from graphene import ObjectType, List
 
-from app.models.anime.basic import Anime
+from app.database.models.anime.basic import Anime
 from app.services.types.generic import IdAsInt, PaginationData
 
 
-class gAnime(IdAsInt):
+class gAnime(IdAsInt): # noqa
     class Meta:
         model = Anime
 
@@ -15,5 +15,5 @@ class gAnime(IdAsInt):
         return round(self.total_days, 2)
 
 
-class gAnimes(ObjectType, PaginationData):
+class gAnimes(ObjectType, PaginationData): # noqa
     items = List(gAnime)
