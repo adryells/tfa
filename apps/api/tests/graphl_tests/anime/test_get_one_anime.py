@@ -25,7 +25,7 @@ class TestGetOneAnime(BaseTest):
 
     def test_get_one_anime_success(self, client, anime):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables={"animeId": anime.id},
             query=self.query
         )

@@ -15,12 +15,12 @@ class RequestChange(ObjectType):
         anime_id=Int()
     )
 
-    def resolve_request_change(self, info: TFAGraphQLResolveInfo, request_change_id: int):
+    def resolve_request_change(self, info: TFAGraphQLResolveInfo, request_change_id: int): # noqa
         request_change = RequestChangeController(info.context.session).get_request_change_by_id(request_change_id)
 
         return request_change
 
-    def resolve_request_changes(
+    def resolve_request_changes( # noqa
             self,
             info: TFAGraphQLResolveInfo,
             page: int = None,
@@ -36,8 +36,8 @@ class RequestChange(ObjectType):
         count = RequestChangeController(info.context.session).get_request_changes_count(anime_id=anime_id)
 
         return RequestChanges(
-            items=request_changes,
-            total_count=count,
-            page=page,
-            per_page=per_page
+            items=request_changes, # noqa
+            total_count=count, # noqa
+            page=page, # noqa
+            per_page=per_page # noqa
         )

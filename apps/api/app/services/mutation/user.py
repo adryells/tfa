@@ -1,7 +1,7 @@
 from graphene import Mutation, Field, InputObjectType, String, Boolean, Int
 
 from app.controllers.user.user_controller import UserController
-from app.data.permission import update_user
+from app.data.permission import update_user, create_user, delete_user
 from app.dto.user_dto import InputUpdateUserDataValidator, InputCreateUserDataValidator, InputSignupDataValidator
 from app.services.auth import graphql_authorizator
 from app.services.types.user import gUser
@@ -44,6 +44,7 @@ class CreateUser(Mutation):
 
     user = Field(gUser)
 
+    @graphql_authorizator(create_user.name)
     def mutate(self, info: TFAGraphQLResolveInfo, input_create_user_data: InputCreateUserData): # noqa
         validated_data = InputCreateUserDataValidator(**input_create_user_data.__dict__)
 
@@ -76,6 +77,7 @@ class DeleteUser(Mutation):
 
     success = Boolean()
 
+    @graphql_authorizator(delete_user.name)
     def mutate(self, info: TFAGraphQLResolveInfo, user_id: int): # noqa
         UserController(info.context.session).delete_user(user_id=user_id)
 

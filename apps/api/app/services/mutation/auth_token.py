@@ -16,11 +16,12 @@ class Login(Mutation):
 
     auth_token = Field(gAuthToken)
 
-    def mutate(self, info: TFAGraphQLResolveInfo, input_login_data: InputLoginData):
+    def mutate(self, info: TFAGraphQLResolveInfo, input_login_data: InputLoginData):  # noqa
+
         token = AuthTokenController(info.context.session).login(
-            password=input_login_data.password,
-            email=input_login_data.email,
+            password=input_login_data.password, # noqa
+            email=input_login_data.email, # noqa
             ip_address=info.context.request.client.host
         )
 
-        return Login(auth_token=token)
+        return Login(auth_token=token) # noqa

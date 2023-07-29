@@ -38,7 +38,7 @@ class TestGetMultipleRequestChange(BaseTest):
 
     def test_get_multiple_request_change(self, client, db_session, request_changes, variables):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
             query=self.query
         )

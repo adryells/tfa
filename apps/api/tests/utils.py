@@ -10,6 +10,7 @@ from app.data.size_type import medium
 from app.database.models.anime.basic import Anime
 from app.database.models.anime.request_change import RequestChange
 from app.database.models.media.basic import MediaItem
+from app.database.models.token.auth_token import AuthToken
 from app.database.models.user.basic import User
 from app.database.queries.media_type.media_type_queries import MediaTypeQueries
 from app.database.queries.request_change.size_type_queries import SizeTypeQueries
@@ -92,3 +93,17 @@ def create_media_item(session: Session, creator: User, media_type_slug: str = an
     session.commit()
 
     return media_item
+
+
+def create_auth_token(session: Session, user: User) -> AuthToken:
+    auth_token = AuthToken(
+        user=user,
+        ip_address=fake.ipv4(),
+    )
+
+    auth_token.generate().use()
+
+    session.add(auth_token)
+    session.commit()
+
+    return auth_token

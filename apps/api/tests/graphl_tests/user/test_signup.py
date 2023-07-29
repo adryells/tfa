@@ -114,7 +114,7 @@ class TestSignup(BaseTest):
         }
 
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
             query=self.query
         )

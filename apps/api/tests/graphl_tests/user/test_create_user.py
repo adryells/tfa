@@ -59,13 +59,43 @@ class TestCreateUser(BaseTest):
             "active": active
         }
 
-    def test_create_user_success(self, client, db_session, profile_picture_media):
+    def test_create_user_without_token(self, client):
+        self.assert_with_invalid_token(client=client, query=self.query, variables=self._get_variables())
+
+    def test_create_user_with_invalid_structure_token(self, client):
+        self.assert_with_invalid_token(
+            client=client,
+            query=self.query,
+            token="hahaha 123",
+            variables=self._get_variables()
+        )
+
+    def test_create_user_with_invalid_token(self, client):
+        self.assert_with_invalid_token(
+            client=client,
+            query=self.query,
+            token="TfaApiTok = isso ai",
+            variables=self._get_variables(),
+            error_message="Token doesn't match any user."
+        )
+
+    def test_create_user_without_permission(self, client, common_user_auth_token):
+        self.assert_with_invalid_token(
+            client=client,
+            query=self.query,
+            token=common_user_auth_token.token,
+            variables=self._get_variables(),
+            error_message="You don't have permission for this service."
+        )
+
+    def test_create_user_success(self, client, db_session, admin_auth_token, profile_picture_media):
         variables = self._get_variables()
 
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
-            query=self.query
+            query=self.query,
+            token=admin_auth_token.token
         )
 
         assert not response.get("errors")
@@ -87,12 +117,13 @@ class TestCreateUser(BaseTest):
         assert user_response["active"] == variables["active"] == user.active
 
     @pytest.mark.parametrize("username", [" " * 4, "ab"])
-    def test_create_user_with_not_enough_characters(self, client, username):
+    def test_create_user_with_not_enough_characters(self, client, username, admin_auth_token):
         self.assert_response_error(
             client=client,
             variables=self._get_variables(username=username),
             query=self.query,
-            error_message="Username's length must be a minimum of 3 characters."
+            error_message="Username's length must be a minimum of 3 characters.",
+            token=admin_auth_token.token
         )
 
     @pytest.mark.parametrize("email", [
@@ -100,12 +131,13 @@ class TestCreateUser(BaseTest):
         "missing_domain@.com", "extra@dots..com", "adryell",
         "spaces in@email.com", "double@@symbol.com", "invalid#character.com"
     ])
-    def test_create_user_with_invalid_email(self, client, email):
+    def test_create_user_with_invalid_email(self, client, email, admin_auth_token):
         self.assert_response_error(
             client=client,
             error_message="Invalid Email.",
             query=self.query,
-            variables=self._get_variables(email=email)
+            variables=self._get_variables(email=email),
+            token=admin_auth_token.token
         )
 
     @pytest.mark.parametrize("password, reason", [
@@ -116,50 +148,56 @@ class TestCreateUser(BaseTest):
         ("AaAaAaAa", MISSING_NUMBERS),
         ("AaAa12aA", MISSING_SPECIAL_CHARACTERS)
     ])
-    def test_create_user_with_invalid_password(self, client, password, reason):
+    def test_create_user_with_invalid_password(self, client, password, reason, admin_auth_token):
         self.assert_response_error(
             client=client,
             variables=self._get_variables(password=password),
             query=self.query,
-            error_message=reason
+            error_message=reason,
+            token=admin_auth_token.token
         )
 
-    def test_create_user_with_email_already_in_use(self, client, common_user):
+    def test_create_user_with_email_already_in_use(self, client, common_user, admin_auth_token):
         self.assert_response_error(
             client=client,
             query=self.query,
             variables=self._get_variables(email=common_user.email),
-            error_message="Email already in use."
+            error_message="Email already in use.",
+            token=admin_auth_token.token
         )
 
-    def test_create_user_with_username_already_in_use(self, client, common_user):
+    def test_create_user_with_username_already_in_use(self, client, common_user, admin_auth_token):
         self.assert_response_error(
             client=client,
             query=self.query,
             variables=self._get_variables(username=common_user.username),
-            error_message="Username already in use."
+            error_message="Username already in use.",
+            token=admin_auth_token.token
         )
 
-    def test_create_user_with_invalid_role(self, client):
+    def test_create_user_with_invalid_role(self, client, admin_auth_token):
         self.assert_response_error(
             client=client,
             variables=self._get_variables(role_id=1000),
             error_message="Role not found.",
-            query=self.query
+            query=self.query,
+            token=admin_auth_token.token
         )
 
-    def test_create_user_with_non_existent_media_item(self, client):
+    def test_create_user_with_non_existent_media_item(self, client, admin_auth_token):
         self.assert_response_error(
             error_message="Media Item not found.",
             variables=self._get_variables(profile_picture_id=1000),
             client=client,
-            query=self.query
+            query=self.query,
+            token=admin_auth_token.token
         )
 
-    def test_create_user_with_non_profile_picture_media_item(self, client, anime_picture_media):
+    def test_create_user_with_non_profile_picture_media_item(self, client, anime_picture_media, admin_auth_token):
         self.assert_response_error(
             variables=self._get_variables(),
             query=self.query,
             client=client,
-            error_message="Media is not in valid type."
+            error_message="Media is not in valid type.",
+            token=admin_auth_token.token
         )

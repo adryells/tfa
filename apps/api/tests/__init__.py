@@ -3,6 +3,7 @@ from typing import Any, Type
 
 from faker import Faker
 from graphene import ObjectType, NonNull
+from requests import Response
 from starlette.testclient import TestClient
 
 from app.database.base_class import DbBaseModel
@@ -12,21 +13,63 @@ from app.utils.string_utils import to_lower_camel_case
 class BaseTest:
     fake = Faker()
 
-    def request_api(self, test_client: TestClient, query: str, variables: dict[str, Any] = None) -> dict[str, Any]:
-        query = {
-            "variables": variables,
-            "query": query
+    def _get_headers(self, token: str = "") -> dict: # noqa
+        return {
+            'content_type': 'application/json',
+            'Authorization': f'TfaApiTok = {token}' if token else ''
         }
 
-        response = test_client.post(
+    def _mounted_body(self, request_text: str = "", variables: dict = {}): # noqa
+        return {
+            "variables": variables,
+            "query": request_text
+        }
+
+    def _mounted_request(self, client: TestClient, headers: dict, body: dict) -> Response: # noqa
+        return client.post(
             url="/graphql",
-            json=query,
-            headers={"content_type": 'application/json'}
+            json=body,
+            headers=headers
+        )
+
+    def request_api(self, client: TestClient, query: str, variables: dict[str, Any] = None, token: str = "") -> dict[str, Any]:
+        response = self._mounted_request(
+            client=client,
+            headers=self._get_headers(token=token),
+            body=self._mounted_body(query, variables)
         )
 
         return response.json()
 
-    def generate_query_with_fields(
+    def assert_with_invalid_token(
+            self,
+            client: TestClient,
+            query: str,
+            token: str = "",
+            error_message: str = "",
+            variables: dict = {}
+    ):
+        headers = self._get_headers(token=token)
+        headers["Authorization"] = token
+
+        if not token:
+            headers.pop("Authorization")
+            error_message = "Authorization token is required."
+
+        elif not token.startswith("TfaApiTok = "):
+            error_message = "Invalid token structure."
+
+        response = self._mounted_request(
+            client=client,
+            headers=headers,
+            body=self._mounted_body(query, variables)
+        ).json()
+
+        assert response.get("errors")
+
+        assert response["errors"][0]["message"] == error_message
+
+    def generate_query_with_fields( # noqa
             self,
             graphql_object: Type[ObjectType],
             model: Type[DbBaseModel],
@@ -110,12 +153,14 @@ class BaseTest:
             client: TestClient,
             query: str,
             variables: dict[str, Any],
-            error_message: str
+            error_message: str,
+            token: str = ""
     ):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
-            query=query
+            query=query,
+            token=token
         )
 
         assert response.get('errors')

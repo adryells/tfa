@@ -46,3 +46,8 @@ class User(DbBaseModel, CreatedUpdatedDeletedMixin):
             iterations=122381,
             dklen=128
         ) == self.password
+
+    def profile_picture(self) -> "MediaItem": # noqa
+        for media in self.related_media:
+            if media.media_type.name == "Profile Picture":
+                return media

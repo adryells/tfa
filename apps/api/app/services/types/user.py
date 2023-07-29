@@ -8,7 +8,7 @@ from app.services.types.media_item import gMediaItem
 from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 
 
-class gUser(IdAsInt):
+class gUser(IdAsInt): # noqa
     class Meta:
         model = User
 

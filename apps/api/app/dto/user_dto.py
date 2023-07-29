@@ -82,7 +82,7 @@ class InputPasswordDataValidator(BaseModel):
 
     new_password: str
 
-    @validator("current_password", "new_password")
+    @validator("new_password")
     def validate_new_password(cls, value: str): # noqa
         return validate_password(value)
 

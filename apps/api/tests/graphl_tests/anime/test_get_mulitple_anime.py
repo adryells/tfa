@@ -54,7 +54,7 @@ class TestMultipleAnime(BaseTest):
         variables["search"] = animes[0].name[0]
 
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables=variables,
             query=self.query
         )

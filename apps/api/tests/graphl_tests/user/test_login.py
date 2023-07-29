@@ -21,7 +21,7 @@ class TestLogin(BaseTest):
 
     def test_login_success(self, client, db_session, common_user):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables={"email": common_user.email, "password": "12345678"},
             query=self.query
         )

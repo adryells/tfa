@@ -8,16 +8,17 @@ from starlette.testclient import TestClient
 from app.config import AppConfig, settings
 from app.data import load_prod_data
 from app.data.media_type import profile_picture
-from app.data.role import common
+from app.data.role import common, admin
 from app.database.models.anime.basic import Anime
 from app.database.models.anime.request_change import RequestChange
 from app.database.models.media.basic import MediaItem
+from app.database.models.token.auth_token import AuthToken
 from app.database.models.user.basic import User
 from app.database.session import main_session, SessionLocal
 from app.database.utils import init_db
 from app.services.router import graphql_app
 from main import app
-from tests.utils import create_anime, create_request_change, create_user, create_media_item
+from tests.utils import create_anime, create_request_change, create_user, create_media_item, create_auth_token
 
 faker = Faker()
 
@@ -107,6 +108,27 @@ def common_user(db_session) -> User:
     user = create_user(db_session, role_name=common.name)
 
     return user
+
+
+@pytest.fixture
+def common_user_auth_token(db_session, common_user) -> AuthToken:
+    auth_token = create_auth_token(db_session, user=common_user)
+
+    return auth_token
+
+
+@pytest.fixture
+def admin_user(db_session) -> User:
+    user = create_user(db_session, role_name=admin.name)
+
+    return user
+
+
+@pytest.fixture
+def admin_auth_token(db_session, admin_user) -> AuthToken:
+    auth_token = create_auth_token(db_session, user=admin_user)
+
+    return auth_token
 
 
 @pytest.fixture

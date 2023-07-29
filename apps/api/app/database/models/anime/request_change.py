@@ -20,4 +20,4 @@ class RequestChange(DbBaseModel, CreatedUpdatedDeletedMixin):
     accepted = Column(Boolean, nullable=False, default=False)
 
     anime_id = Column(Integer, ForeignKey("anime.id"), nullable=False)
-    anime: 'Anime' = relationship("Anime", foreign_keys=[anime_id])
+    anime: 'Anime' = relationship("Anime", foreign_keys=[anime_id]) # noqa

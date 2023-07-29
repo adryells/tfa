@@ -74,7 +74,7 @@ class TestCalculateTFA(BaseTest):
     def test_calculate_tfa_success(self, client, db_session, variables):
         response = self.request_api(
             query=self.query,
-            test_client=client,
+            client=client,
             variables=variables
         )
 
@@ -85,7 +85,7 @@ class TestCalculateTFA(BaseTest):
 
         response = self.request_api(
             query=self.query,
-            test_client=client,
+            client=client,
             variables=variables
         )
 

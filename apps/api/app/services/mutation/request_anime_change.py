@@ -22,9 +22,9 @@ class RequestAnimeChange(Mutation):
 
     success = Boolean()
 
-    def mutate(self, info: TFAGraphQLResolveInfo, input_request_anime_change: InputRequestAnimeChange):
+    def mutate(self, info: TFAGraphQLResolveInfo, input_request_anime_change: InputRequestAnimeChange): # noqa
         data = RequestAnimeChangeData(**input_request_anime_change.__dict__)
 
         RequestChangeController(info.context.session).request_anime_change(data=data)
 
-        return RequestAnimeChange(success=True)
+        return RequestAnimeChange(success=True) # noqa

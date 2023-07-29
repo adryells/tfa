@@ -30,7 +30,7 @@ class TestGetUsers(BaseTest):
         keyword = multiple_users[0].username[0]
 
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables={"page": 1, "perPage": 5, "search": keyword},
             query=self.request_query()
         )

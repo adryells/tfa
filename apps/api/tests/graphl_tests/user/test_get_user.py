@@ -16,7 +16,7 @@ class TestGetUserById(BaseTest):
 
     def test_get_user_by_id_success(self, client, common_user):
         response = self.request_api(
-            test_client=client,
+            client=client,
             variables={"userId": common_user.id},
             query=self.request_query()
         )

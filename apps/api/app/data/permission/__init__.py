@@ -39,10 +39,23 @@ update_user = PermissionData(
     description="Allows a user update self or another user."
 )
 
+create_user = PermissionData(
+    name="Create user",
+    description="Allows a user creation."
+)
+
+delete_user = PermissionData(
+    name="Delete user",
+    description="Allows a user deletion."
+)
+
 permission_datas = [
     get_users,
     get_animes,
     get_request_changes,
     approve_request_changes,
-    update_anime_data
+    update_anime_data,
+    update_user,
+    create_user,
+    delete_user
 ]

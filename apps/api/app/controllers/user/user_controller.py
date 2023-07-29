@@ -84,12 +84,12 @@ class UserController(BaseController):
             "active": lambda: self.update_attribute_object(updating_user, "active", data.active),
             "username": lambda: self.update_user_username(updating_user, data.username),
             "email": lambda: self.update_user_email(updating_user, data.email),
-            "password": lambda: self.update_user_password(
+            "input_password": lambda: self.update_user_password(
                 updating_user=updating_user,
                 current_password=data.input_password.current_password,
                 new_password=data.input_password.new_password
             ),
-            "role_id": lambda: self.update_user_role(updating_user, updater_user_is_admin, data.role_id),
+            "role_id": lambda: self.update_user_role(updating_user, data.role_id),
             "profile_picture_id": lambda: self.update_profile_picture(updating_user, data.profile_picture_id)
         }
 
@@ -130,11 +130,11 @@ class UserController(BaseController):
 
         updating_user.set_password(new_password)
 
-    def update_user_role(self, updating_user: User, updater_user_is_admin: bool, role_id: int):
-        if not updater_user_is_admin:
-            raise Exception("Only an admin can update roles from another user.")
-
+    def update_user_role(self, updating_user: User, role_id: int):
         role = RoleQueries(self.session).get_role_by_id(role_id=role_id)
+
+        if not role:
+            raise Exception("Role not found.")
 
         updating_user.role = role
 

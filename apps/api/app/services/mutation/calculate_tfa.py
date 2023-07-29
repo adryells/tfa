@@ -24,8 +24,8 @@ class CalculateTFA(Mutation):
 
     result = Field(TFAResult)
 
-    def mutate(self, info: TFAGraphQLResolveInfo, input_data: InputCalculateTFA):
-        validated_data = CalculateTFAData(**input_data)
+    def mutate(self, info: TFAGraphQLResolveInfo, input_data: InputCalculateTFA): # noqa
+        validated_data = CalculateTFAData(**input_data.__dict__)
 
         tfa_result = AnimeController(info.context.session).register_and_get_tfa_result(
             num_episodes=validated_data.num_episodes,
@@ -34,8 +34,6 @@ class CalculateTFA(Mutation):
             available_hours=validated_data.available_hours
         )
 
-        result = CalculateTFA(
-            TFAResult(**tfa_result)
-        )
+        result = CalculateTFA(TFAResult(**tfa_result)) # noqa
 
         return result
