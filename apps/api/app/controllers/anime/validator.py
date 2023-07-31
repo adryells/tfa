@@ -24,10 +24,10 @@ class CalculateTFAData(BaseModel):
         return stripped_value
 
 
-class InputUpdateAnimeData(BaseModel):
+class UpdateAnimeData(BaseModel):
     anime_id: int
     name: str | None
-    synopsys: str | None
+    synopsis: str | None
     num_episodes: int | None
     average_ep_duration: int | None
     source_data_id: int | None

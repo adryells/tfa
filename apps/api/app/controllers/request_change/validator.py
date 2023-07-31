@@ -7,6 +7,6 @@ class RequestAnimeChangeData(BaseModel):
     additional_info: str | None
     name: str | None
     image_url: str | None
-    synopsys: str | None
+    synopsis: str | None
     num_episodes: int | None
     average_ep_duration: int | None

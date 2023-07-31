@@ -46,7 +46,7 @@ class TestGetOneRequestChange(BaseTest):
         assert change_data_response["name"] == request_change.change_data["name"]
         assert change_data_response["average_ep_duration"] == request_change.change_data["average_ep_duration"]
         assert change_data_response["num_episodes"] == request_change.change_data["num_episodes"]
-        assert change_data_response["synopsys"] == request_change.change_data["synopsys"]
+        assert change_data_response["synopsis"] == request_change.change_data["synopsys"]
         assert change_data_response["image_url"] == request_change.change_data["image_url"]
 
     def test_get_invalid_request_change(self, client):

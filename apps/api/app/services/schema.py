@@ -1,6 +1,7 @@
 from graphene import ObjectType, Schema
 
 from app.services.mutation.auth_token import Login
+from app.services.mutation.update_anime_data import UpdateAnime
 from app.services.mutation.update_request_change import UpdateRequestChange
 from app.services.mutation.user import CreateUser, UpdateUser, Signup, DeleteUser
 from app.services.queries.anime import Animes
@@ -27,7 +28,8 @@ class Mutation(
     mount_object(CreateUser),
     mount_object(UpdateUser),
     mount_object(DeleteUser),
-    mount_object(UpdateRequestChange)
+    mount_object(UpdateRequestChange),
+    mount_object(UpdateAnime)
 ):
     pass
 

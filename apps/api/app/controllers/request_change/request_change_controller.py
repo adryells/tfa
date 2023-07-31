@@ -16,7 +16,7 @@ class RequestChangeController(BaseController):
             "name": data.name,
             "average_ep_duration": data.average_ep_duration,
             "num_episodes": data.num_episodes,
-            "synopsys": data.synopsys,
+            "synopsis": data.synopsis,
             "image_url": data.image_url
         }
 

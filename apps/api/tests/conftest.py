@@ -9,6 +9,7 @@ from app.config import AppConfig, settings
 from app.data import load_prod_data
 from app.data.media_type import profile_picture
 from app.data.role import common, admin
+from app.data.size_type import large
 from app.database.models.anime.basic import Anime
 from app.database.models.anime.request_change import RequestChange
 from app.database.models.media.basic import MediaItem
@@ -148,5 +149,12 @@ def profile_picture_media(db_session, common_user) -> MediaItem:
 @pytest.fixture
 def anime_picture_media(db_session, common_user) -> MediaItem:
     media = create_media_item(db_session, creator=common_user)
+
+    return media
+
+
+@pytest.fixture
+def large_anime_picture_media(db_session, common_user) -> MediaItem:
+    media = create_media_item(db_session, creator=common_user, size_type_slug=large.name)
 
     return media
