@@ -11,7 +11,7 @@ class InputRequestAnimeChange(InputObjectType):
     additional_info = String()
     name = String()
     image_url = String()
-    synopsys = String()
+    synopsis = String()
     num_episodes = Int()
     average_ep_duration = Int()
 

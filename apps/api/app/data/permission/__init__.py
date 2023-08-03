@@ -24,11 +24,6 @@ get_request_changes = PermissionData(
     description="Allows a user get info about request changes."
 )
 
-approve_request_changes = PermissionData(
-    name="Approve request changes",
-    description="Allows a user approve request changes."
-)
-
 update_anime_data = PermissionData(
     name="Update anime data",
     description="Allows a user update an anime."
@@ -49,13 +44,18 @@ delete_user = PermissionData(
     description="Allows a user deletion."
 )
 
+update_request_change = PermissionData(
+    name="Update request change",
+    description="Allows update an anime request change."
+)
+
 permission_datas = [
     get_users,
     get_animes,
     get_request_changes,
-    approve_request_changes,
     update_anime_data,
     update_user,
     create_user,
-    delete_user
+    delete_user,
+    update_request_change
 ]

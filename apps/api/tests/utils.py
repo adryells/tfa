@@ -49,8 +49,9 @@ def create_request_change(session: Session, anime: Anime):
             "name": fake.pystr(),
             "average_ep_duration": fake.pyint(min_value=1, max_value=200),
             "num_episodes": fake.pyint(min_value=1, max_value=200),
-            "synopsys": fake.text(),
-            "image_url": fake.image_url()
+            "synopsis": fake.text(),
+            "image_url": fake.image_url(),
+            "active": fake.boolean()
         },
         reason=fake.pystr(),
         additional_info=fake.pystr()
@@ -77,9 +78,14 @@ def create_user(session: Session, role_name: str) -> User:
     return new_user
 
 
-def create_media_item(session: Session, creator: User, media_type_slug: str = anime_picture.name) -> MediaItem:
+def create_media_item(
+        session: Session,
+        creator: User,
+        media_type_slug: str = anime_picture.name,
+        size_type_slug: str = medium.name
+) -> MediaItem:
     media_type = MediaTypeQueries(session).get_media_type_by_name(media_type_slug)
-    size_type = SizeTypeQueries(session).get_size_type_by_name(medium.name)
+    size_type = SizeTypeQueries(session).get_size_type_by_name(size_type_slug)
 
     media_item = MediaItem(
         url=fake.image_url(),

@@ -22,3 +22,16 @@ class CalculateTFAData(BaseModel):
             raise Exception("Title can't be blank.")
 
         return stripped_value
+
+
+class UpdateAnimeData(BaseModel):
+    anime_id: int
+    name: str | None
+    synopsis: str | None
+    num_episodes: int | None
+    average_ep_duration: int | None
+    source_data_id: int | None
+    active: bool | None
+    request_change_id: int | None
+    medium_image_id: int | None
+    large_image_id: int | None
