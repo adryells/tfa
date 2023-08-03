@@ -13,7 +13,7 @@ graphene = "^3.2.2"
 graphene-sqlalchemy = "3.0.0b4"
 loguru = "^0.7.0"
 psycopg2 = "^2.9.6"
-pydantic = "^2.0.3"
+pydantic = {extras = ["email"], version = "^2.1.1"}
 python-dotenv = "^1.0.0"
 requests = "^2.31.0"
 sqlalchemy = "1.4.48"
@@ -22,6 +22,8 @@ pytest = "^7.4.0"
 sqlalchemy-utils = "^0.41.1"
 httpx = "^0.24.1"
 starlette-graphene3 = "0.6.0"
+sqlalchemy-easy-softdelete = "^0.8.2"
+pytest-xdist = "^3.3.1"
 
 
 [build-system]
