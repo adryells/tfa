@@ -19,7 +19,7 @@ class UpdateRequestChange(Mutation):
 
     request_change = Field(gRequestChange)
 
-    @graphql_authorizator(update_request_change.name)
+    @graphql_authorizator(update_request_change.slug)
     def mutate(self, info: TFAGraphQLResolveInfo, input_update_request_change: InputUpdateRequestChange):
         request_change = RequestChangeController(info.context.session).update_request_change(
             request_change_id=input_update_request_change.request_change_id,

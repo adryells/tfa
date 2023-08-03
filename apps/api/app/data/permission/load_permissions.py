@@ -8,7 +8,7 @@ from app.database.queries.permission.permission_queries import PermissionQueries
 
 def load_permissions(session: Session):
     for permission_data in permission_datas:
-        existing_permission = PermissionQueries(session).check_if_permission_exists_by_name(permission_data.name)
+        existing_permission = PermissionQueries(session).check_if_permission_exists_by_slug(permission_data.slug)
 
         if existing_permission:
             logger.info(f"Permission {permission_data.name} already exists. Skipping...")
@@ -16,6 +16,7 @@ def load_permissions(session: Session):
 
         permission = Permission(
             name=permission_data.name,
+            slug=permission_data.slug,
             description=permission_data.description
         )
 

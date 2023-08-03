@@ -27,7 +27,7 @@ class UpdateAnime(Mutation):
 
     anime = Field(gAnime)
 
-    @graphql_authorizator(update_anime_data.name)
+    @graphql_authorizator(update_anime_data.slug)
     def mutate(self, info: TFAGraphQLResolveInfo, input_update_anime_data: InputUpdateAnimeData):
         data = UpdateAnimeData(**input_update_anime_data.__dict__)
 

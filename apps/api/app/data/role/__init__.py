@@ -8,6 +8,7 @@ all_permissions = permission_datas
 
 class RoleData(BaseModel):
     name: str
+    slug: str
     description: str
     excluded: list[PermissionData] = []
 
@@ -21,12 +22,14 @@ class RoleData(BaseModel):
 
 admin = RoleData(
     name="Admin",
+    slug="admin",
     description="System's god"
 )
 
 
 common = RoleData(
     name="Common",
+    slug="common",
     description="A simple user with basic permissions for some read/write actions.",
     excluded=[
         get_request_changes,

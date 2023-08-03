@@ -5,15 +5,15 @@ from app.database.models.data.basic import SourceData
 
 
 class SourceDataQueries(BaseQueries):
-    def check_source_data_exists_with_name(self, name: str) -> bool:
+    def check_source_data_exists_with_slug(self, slug: str) -> bool:
         exists = self.session.query(
-            self.session.query(SourceData.id).filter(SourceData.name == name).exists()
+            self.session.query(SourceData.id).filter(SourceData.slug == slug).exists()
         ).scalar()
 
         return exists
 
-    def get_source_data_by_name(self, name: str) -> SourceData | None:
-        source_data = self.session.query(SourceData).filter(SourceData.name == name).one_or_none()
+    def get_source_data_by_slug(self, slug: str) -> SourceData | None:
+        source_data = self.session.query(SourceData).filter(SourceData.slug == slug).one_or_none()
 
         return source_data
 

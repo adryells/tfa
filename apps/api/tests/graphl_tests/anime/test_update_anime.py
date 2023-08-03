@@ -263,7 +263,7 @@ class TestUpdateAnime(BaseTest):
         variables[field] = anime_picture_media.id
 
         if field == "medium_image_id":
-            anime_picture_media.size_type = SizeTypeQueries(db_session).get_size_type_by_name(large.name)
+            anime_picture_media.size_type = SizeTypeQueries(db_session).get_size_type_by_slug(large.slug)
             db_session.commit()
 
         self.assert_response_error(

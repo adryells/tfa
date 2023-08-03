@@ -65,7 +65,7 @@ class AnimeController(BaseController):
             average_minutes_per_ep: float,
             title: str
     ) -> Anime:
-        source_data = SourceDataQueries(self.session).get_source_data_by_name(name=users_source.name)
+        source_data = SourceDataQueries(self.session).get_source_data_by_slug(slug=users_source.slug)
 
         name_conflicts = AnimeQueries(self.session).check_anime_exists_with_name(name=title)
 
@@ -115,15 +115,15 @@ class AnimeController(BaseController):
             "num_episodes": lambda: self.update_attribute_object(anime, "num_episodes", change_data["num_episodes"]),
             "synopsis": lambda: self.update_attribute_object(anime, "synopsis", change_data["synopsis"]),
             "medium_image_id": lambda: self.update_anime_media(
-                size_type_name=medium.name,
+                size_type_slug=medium.slug,
                 media_id=change_data["medium_image_id"],
-                media_type_name=anime_picture.name,
+                media_type_slug=anime_picture.slug,
                 anime=anime
             ),
             "large_image_id": lambda: self.update_anime_media(
-                size_type_name=large.name,
+                size_type_slug=large.slug,
                 media_id=change_data["large_image_id"],
-                media_type_name=anime_picture.name,
+                media_type_slug=anime_picture.slug,
                 anime=anime
             ),
             "active": lambda: self.update_attribute_object(anime, "active", change_data["active"]),
@@ -144,20 +144,20 @@ class AnimeController(BaseController):
 
         anime.name = name
 
-    def update_anime_media(self, anime: Anime, media_id: int, size_type_name: str, media_type_name: str):
+    def update_anime_media(self, anime: Anime, media_id: int, size_type_slug: str, media_type_slug: str):
         new_media = MediaItemQueries(self.session).get_media_item_by_id(media_id)
 
         if not new_media:
             raise Exception("Media Item not found.")
 
-        if new_media.media_type.name != media_type_name:
+        if new_media.media_type.slug != media_type_slug:
             raise Exception("Wrong media type.")
 
-        if new_media.size_type.name != size_type_name:
+        if new_media.size_type.slug != size_type_slug:
             raise Exception("Wrong size type.")
 
         for media in anime.related_media:
-            if media.size_type.name == size_type_name and media.media_type.name == media_type_name:
+            if media.size_type.slug == size_type_slug and media.media_type.slug == media_type_slug:
                 anime.related_media.remove(media)
 
         anime.related_media.append(new_media)

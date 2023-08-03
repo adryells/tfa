@@ -17,13 +17,13 @@ class UserController(BaseController):
 
         return user
 
-    def check_media_exists_and_is_type(self, type_name: str, media_id: int):
+    def check_media_exists_and_is_type(self, type_slug: str, media_id: int):
         media = MediaItemQueries(self.session).get_media_item_by_id(media_id)
 
         if not media:
             raise Exception("Media Item not found.")
 
-        media_is_type = media.media_type.name == type_name
+        media_is_type = media.media_type.slug == type_slug
 
         if not media_is_type:
             raise Exception("Media is not in valid type.")
@@ -36,7 +36,7 @@ class UserController(BaseController):
         if not role:
             raise Exception("Role not found.")
 
-        self.check_media_exists_and_is_type(type_name=profile_picture.name, media_id=data.profile_picture_id)
+        self.check_media_exists_and_is_type(type_slug=profile_picture.slug, media_id=data.profile_picture_id)
         new_profile_picture = MediaItemQueries(self.session).get_media_item_by_id(data.profile_picture_id)
 
         new_user = User(
@@ -56,7 +56,7 @@ class UserController(BaseController):
 
     def signup(self, data: InputSignupDataValidator) -> User:
         self._check_if_key_is_already_in_use(username=data.username, email=data.email)
-        role = RoleQueries(self.session).get_role_by_name(common.name)
+        role = RoleQueries(self.session).get_role_by_slug(common.slug)
 
         user = User(
             role=role, # noqa
@@ -75,7 +75,7 @@ class UserController(BaseController):
         updating_user = self.get_user_by_id(user_id=data.user_id)
 
         is_self_update = updater_user_id == data.user_id
-        updater_user_is_admin = UserQueries(self.session).user_has_role(role_name=admin.name, user_id=updater_user_id)
+        updater_user_is_admin = UserQueries(self.session).user_has_role(role_slug=admin.slug, user_id=updater_user_id)
 
         if not is_self_update and not updater_user_is_admin:
             raise Exception("You can't update another user.")
@@ -141,10 +141,10 @@ class UserController(BaseController):
     def update_profile_picture(self, updating_user: User, profile_picture_id: int):
         media_item_queries = MediaItemQueries(self.session)
 
-        self.check_media_exists_and_is_type(type_name=profile_picture.name, media_id=profile_picture_id)
+        self.check_media_exists_and_is_type(type_slug=profile_picture.slug, media_id=profile_picture_id)
 
         for media in updating_user.related_media:
-            if media.media_type.name == profile_picture.name:
+            if media.media_type.slug == profile_picture.slug:
                 updating_user.related_media.remove(media)
                 break
 

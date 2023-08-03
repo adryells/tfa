@@ -63,7 +63,7 @@ class TestCalculateTFA(BaseTest):
         assert new_anime.average_ep_duration == variables["averageMinutesPerEp"]
         assert new_anime.total_days == total_days
         assert new_anime.total_hours == total_hours
-        assert new_anime.source_data == SourceDataQueries(db_session).get_source_data_by_name(users_source.name)
+        assert new_anime.source_data == SourceDataQueries(db_session).get_source_data_by_slug(users_source.slug)
         assert new_anime.active is False
         assert new_anime.synopsis is None
         assert new_anime.original_id == 0

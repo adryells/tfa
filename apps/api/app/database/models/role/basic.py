@@ -8,7 +8,9 @@ from app.database.mixins import CreatedUpdatedDeletedMixin
 class Role(DbBaseModel, CreatedUpdatedDeletedMixin):
     id = Column(Integer, primary_key=True, nullable=False)
 
-    name = Column(String, nullable=False, unique=True)
+    name = Column(String, nullable=False)
+
+    slug = Column(String, nullable=False, unique=True)
 
     description = Column(String, nullable=False)
 
