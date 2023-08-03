@@ -1,4 +1,4 @@
-from graphene import Mutation, InputObjectType, Field, Int
+from graphene import Mutation, InputObjectType, Field, Int, Boolean
 
 from app.controllers.request_change.request_change_controller import RequestChangeController
 from app.data.permission import update_request_change
@@ -10,7 +10,7 @@ from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 class InputUpdateRequestChange(InputObjectType):
     request_change_id: int = Int(required=True)
 
-    accepted: bool = Int(required=True)
+    accepted: bool = Boolean(required=True)
 
 
 class UpdateRequestChange(Mutation):
