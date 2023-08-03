@@ -11,8 +11,6 @@ services:
       - POSTGRES_USER=tfa
       - POSTGRES_PASSWORD=tfa#123
       - POSTGRES_DB=tfa
-    env_file:
-      - .env
 
 volumes:
   postgres_data:
