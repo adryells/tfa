@@ -49,5 +49,5 @@ class User(DbBaseModel, CreatedUpdatedDeletedMixin):
 
     def profile_picture(self) -> "MediaItem": # noqa
         for media in self.related_media:
-            if media.media_type.name == "Profile Picture":
+            if media.media_type.slug == "profile_picture":
                 return media

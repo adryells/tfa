@@ -9,7 +9,7 @@ from app.database.queries.source_data.source_data_queries import SourceDataQueri
 def load_source_data(session: Session):
 
     for source_data in sources:
-        existing_source_data = SourceDataQueries(session).check_source_data_exists_with_slug(slug=source_data.name)
+        existing_source_data = SourceDataQueries(session).check_source_data_exists_with_slug(slug=source_data.slug)
 
         if existing_source_data:
             logger.info(f"Source data: {source_data.name} found. Skipping...")

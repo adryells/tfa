@@ -9,7 +9,7 @@ from app.database.queries.request_change.size_type_queries import SizeTypeQuerie
 def load_size_types(session: Session):
     for size_type_data in size_types:
 
-        size_type_exists = SizeTypeQueries(session).check_size_type_exists_by_slug(slug=size_type_data.name)
+        size_type_exists = SizeTypeQueries(session).check_size_type_exists_by_slug(slug=size_type_data.slug)
 
         if size_type_exists:
             logger.info(f"{size_type_data.name} syze type already exists. Skipping...")
