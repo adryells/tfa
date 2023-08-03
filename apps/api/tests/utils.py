@@ -50,7 +50,8 @@ def create_request_change(session: Session, anime: Anime):
             "average_ep_duration": fake.pyint(min_value=1, max_value=200),
             "num_episodes": fake.pyint(min_value=1, max_value=200),
             "synopsis": fake.text(),
-            "image_url": fake.image_url()
+            "image_url": fake.image_url(),
+            "active": fake.boolean()
         },
         reason=fake.pystr(),
         additional_info=fake.pystr()

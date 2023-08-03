@@ -104,7 +104,7 @@ class AnimeController(BaseController):
                 raise Exception("Request change not found.")
 
             for key, _ in change_data.items():
-                value = request_change.change_data.__dict__.get(key)
+                value = request_change.change_data.get(key)
 
                 if value:
                     change_data[key] = value

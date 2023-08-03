@@ -224,7 +224,7 @@ class TestUpdateAnime(BaseTest):
             name_conflicts=anime_db.name_conflicts,
             total_days=anime_db.total_days,
             total_hours=anime_db.total_hours,
-            active_request=variables["active"],
+            active_request=request_change_data["active"],
             active_db=anime_db.active,
             synopsis_request=request_change_data["synopsis"],
             synopsis_db=anime_db.synopsis,
