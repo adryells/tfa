@@ -25,9 +25,9 @@ class UserQueries(BaseQueries):
 
         return user
 
-    def user_has_role(self, role_name: str, user_id: int) -> bool:
+    def user_has_role(self, role_slug: str, user_id: int) -> bool:
         exists = self.session.query(
-            self.session.query(User.role).join(User.role) .filter(Role.name == role_name, User.id == user_id).exists()
+            self.session.query(User.role).join(User.role).filter(Role.slug == role_slug, User.id == user_id).exists()
         ).scalar()
 
         return exists

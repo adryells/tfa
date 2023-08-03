@@ -9,4 +9,6 @@ class MediaType(DbBaseModel, CreatedUpdatedDeletedMixin):
 
     name = Column(String, nullable=False)
 
+    slug = Column(String, nullable=False, unique=True)
+
     active = Column(Boolean, nullable=False, default=True)

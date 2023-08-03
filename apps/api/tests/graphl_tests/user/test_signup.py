@@ -128,7 +128,7 @@ class TestSignup(BaseTest):
         assert user_response["id"]
 
         user = UserQueries(db_session).get_user_by_id(user_response["id"])
-        role = RoleQueries(db_session).get_role_by_name(common.name)
+        role = RoleQueries(db_session).get_role_by_slug(common.slug)
 
         assert user_response["email"] == variables["email"] == user.email
         assert user_response["username"] == variables["username"] == user.username

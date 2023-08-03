@@ -9,7 +9,7 @@ from app.database.queries.role.role_queries import RoleQueries
 
 def load_roles(session: Session):
     for role_data in role_datas:
-        existing_role = RoleQueries(session).check_if_role_exists_by_name(role_data.name)
+        existing_role = RoleQueries(session).check_if_role_exists_by_slug(role_data.slug)
 
         if existing_role:
             logger.info(f"Role {role_data.name} already exists. Skipping...")
@@ -17,12 +17,13 @@ def load_roles(session: Session):
 
         role = Role(
             name=role_data.name,
+            slug=role_data.slug,
             description=role_data.description
         )
 
-        list_name = [permission.name for permission in role_data.permissions]
+        list_slugs = [permission.slug for permission in role_data.permissions]
 
-        permissions = PermissionQueries(session).get_permissions_by_list_name(list_name)
+        permissions = PermissionQueries(session).get_permissions_by_list_slug(list_slugs)
 
         role.permissions = permissions
 

@@ -25,7 +25,7 @@ def format_date_graphql(string_date: str):
 
 
 def create_anime(session: Session):
-    source_data = SourceDataQueries(session).get_source_data_by_name(imagination_source.name)
+    source_data = SourceDataQueries(session).get_source_data_by_slug(imagination_source.slug)
 
     new_anime = Anime(
         name=fake.name().lower(),
@@ -63,8 +63,8 @@ def create_request_change(session: Session, anime: Anime):
     return new_request_change
 
 
-def create_user(session: Session, role_name: str) -> User:
-    role = RoleQueries(session).get_role_by_name(role_name)
+def create_user(session: Session, role_slug: str) -> User:
+    role = RoleQueries(session).get_role_by_slug(role_slug)
 
     new_user = User(
         role=role,
@@ -81,11 +81,11 @@ def create_user(session: Session, role_name: str) -> User:
 def create_media_item(
         session: Session,
         creator: User,
-        media_type_slug: str = anime_picture.name,
-        size_type_slug: str = medium.name
+        media_type_slug: str = anime_picture.slug,
+        size_type_slug: str = medium.slug
 ) -> MediaItem:
-    media_type = MediaTypeQueries(session).get_media_type_by_name(media_type_slug)
-    size_type = SizeTypeQueries(session).get_size_type_by_name(size_type_slug)
+    media_type = MediaTypeQueries(session).get_media_type_by_slug(media_type_slug)
+    size_type = SizeTypeQueries(session).get_size_type_by_slug(size_type_slug)
 
     media_item = MediaItem(
         url=fake.image_url(),

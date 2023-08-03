@@ -18,14 +18,14 @@ fake = Faker()
 
 
 def generate_related_media(session: Session, medium_url: str = None, large_url: str = None) -> list[MediaItem]:
-    medium_size_type = SizeTypeQueries(session).get_size_type_by_name(medium.name)
-    large_size_type = SizeTypeQueries(session).get_size_type_by_name(large.name)
-    media_type = MediaTypeQueries(session).get_media_type_by_name(anime_picture.name)
+    medium_size_type = SizeTypeQueries(session).get_size_type_by_slug(medium.slug)
+    large_size_type = SizeTypeQueries(session).get_size_type_by_slug(large.slug)
+    media_type = MediaTypeQueries(session).get_media_type_by_slug(anime_picture.slug)
 
     media_items = []
 
     for size_type in [medium_size_type, large_size_type]:
-        param_url = medium_url if size_type.name == medium.name else large_url
+        param_url = medium_url if size_type.slug == medium.slug else large_url
         url = param_url or fake.image_url()
         adm_user = UserQueries(session).get_user_by_username(admin.username)
 
@@ -49,7 +49,7 @@ def generate_related_media(session: Session, medium_url: str = None, large_url: 
 
 
 def load_anime_list(session: Session):
-    source_data = SourceDataQueries(session).get_source_data_by_name(name=imagination_source.name)
+    source_data = SourceDataQueries(session).get_source_data_by_slug(slug=imagination_source.slug)
 
     for anime_data in animes:
         new_anime = Anime(

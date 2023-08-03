@@ -17,9 +17,9 @@ class gUser(IdAsInt): # noqa
     profile_picture = Field(gMediaItem)
 
     def resolve_profile_picture(self, info: TFAGraphQLResolveInfo):
-        media = MediaItemQueries(info.context.session).get_media_item_by_user_id_and_type_name(
+        media = MediaItemQueries(info.context.session).get_media_item_by_user_id_and_type_slug(
             user_id=self.id,
-            name=profile_picture.name
+            slug=profile_picture.slug
         )
 
         return media

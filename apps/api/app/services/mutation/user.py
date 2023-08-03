@@ -44,7 +44,7 @@ class CreateUser(Mutation):
 
     user = Field(gUser)
 
-    @graphql_authorizator(create_user.name)
+    @graphql_authorizator(create_user.slug)
     def mutate(self, info: TFAGraphQLResolveInfo, input_create_user_data: InputCreateUserData): # noqa
         validated_data = InputCreateUserDataValidator(**input_create_user_data.__dict__)
 
@@ -59,7 +59,7 @@ class UpdateUser(Mutation):
 
     user = Field(gUser)
 
-    @graphql_authorizator(update_user.name)
+    @graphql_authorizator(update_user.slug)
     def mutate(self, info: TFAGraphQLResolveInfo, input_update_user_data: InputCreateUserData): # noqa
         validated_data = InputUpdateUserDataValidator(**input_update_user_data.__dict__)
 
@@ -77,7 +77,7 @@ class DeleteUser(Mutation):
 
     success = Boolean()
 
-    @graphql_authorizator(delete_user.name)
+    @graphql_authorizator(delete_user.slug)
     def mutate(self, info: TFAGraphQLResolveInfo, user_id: int): # noqa
         UserController(info.context.session).delete_user(user_id=user_id)
 

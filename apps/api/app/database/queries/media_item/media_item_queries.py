@@ -10,10 +10,10 @@ class MediaItemQueries(BaseQueries):
 
         return media_item
 
-    def get_media_item_by_user_id_and_type_name(self, user_id: int, name: str) -> MediaItem | None:
+    def get_media_item_by_user_id_and_type_slug(self, user_id: int, slug: str) -> MediaItem | None:
         media_item = self.session.query(MediaItem)\
             .join(User.related_media)\
-            .filter(User.id == user_id, MediaType.name == name)\
+            .filter(User.id == user_id, MediaType.slug == slug)\
             .first()
 
         return media_item

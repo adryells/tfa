@@ -7,8 +7,8 @@ from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
 
 class GraphqlAuth:
 
-    def __init__(self, permission_name: str = None):
-        self.permission_name = permission_name
+    def __init__(self, permission_slug: str = None):
+        self.permission_slug = permission_slug
 
     def __call__(self, fn):
         @wraps(fn)
@@ -31,12 +31,12 @@ class GraphqlAuth:
 
             graphql_info.context.user = user
 
-            if not self.permission_name:
+            if not self.permission_slug:
                 return fn(*args, **kwargs)
 
             user_has_permission = PermissionQueries(graphql_info.context.session).get_role_has_permission(
                 role_id=user.role_id,
-                permission_name=self.permission_name
+                permission_slug=self.permission_slug
             )
 
             if not user_has_permission:
@@ -47,5 +47,5 @@ class GraphqlAuth:
         return decorator
 
 
-def graphql_authorizator(permission_name: str = None) -> GraphqlAuth:
-    return GraphqlAuth(permission_name=permission_name)
+def graphql_authorizator(permission_slug: str = None) -> GraphqlAuth:
+    return GraphqlAuth(permission_slug=permission_slug)

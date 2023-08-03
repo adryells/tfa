@@ -28,7 +28,7 @@ def load_real_anime_from_csv_files(session: Session):
 
                 with open(os.path.join(absolute_path_folder, file), "r+", encoding="utf-8") as csv_file:
                     reader = csv.reader(csv_file)
-                    source_data = SourceDataQueries(session).get_source_data_by_name(name=mal_source.name)
+                    source_data = SourceDataQueries(session).get_source_data_by_slug(slug=mal_source.slug)
 
                     for index, row in enumerate(reader, start=1):
                         for item in row:

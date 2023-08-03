@@ -106,7 +106,7 @@ def request_changes(db_session, anime) -> list[RequestChange]:
 
 @pytest.fixture
 def common_user(db_session) -> User:
-    user = create_user(db_session, role_name=common.name)
+    user = create_user(db_session, role_slug=common.slug)
 
     return user
 
@@ -120,7 +120,7 @@ def common_user_auth_token(db_session, common_user) -> AuthToken:
 
 @pytest.fixture
 def admin_user(db_session) -> User:
-    user = create_user(db_session, role_name=admin.name)
+    user = create_user(db_session, role_slug=admin.slug)
 
     return user
 
@@ -134,14 +134,14 @@ def admin_auth_token(db_session, admin_user) -> AuthToken:
 
 @pytest.fixture
 def multiple_users(db_session) -> list[User]:
-    user = [create_user(db_session, role_name=common.name) for _ in range(5)]
+    user = [create_user(db_session, role_slug=common.slug) for _ in range(5)]
 
     return user
 
 
 @pytest.fixture
 def profile_picture_media(db_session, common_user) -> MediaItem:
-    media = create_media_item(db_session, media_type_slug=profile_picture.name, creator=common_user)
+    media = create_media_item(db_session, media_type_slug=profile_picture.slug, creator=common_user)
 
     return media
 
@@ -155,6 +155,6 @@ def anime_picture_media(db_session, common_user) -> MediaItem:
 
 @pytest.fixture
 def large_anime_picture_media(db_session, common_user) -> MediaItem:
-    media = create_media_item(db_session, creator=common_user, size_type_slug=large.name)
+    media = create_media_item(db_session, creator=common_user, size_type_slug=large.slug)
 
     return media

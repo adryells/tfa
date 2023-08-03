@@ -15,7 +15,7 @@ def load_users(session: Session, user_datas: list[UserData]):
             logger.info(f"User {user_data.username} already exists. Skipping...")
             continue
 
-        role = RoleQueries(session).get_role_by_name(user_data.role.name)
+        role = RoleQueries(session).get_role_by_slug(user_data.role.slug)
 
         user = User(
             email=user_data.email,
