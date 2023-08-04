@@ -1,10 +1,10 @@
-type SearchProps = {
-    loadAnime: (search: string) => Promise<void>; 
-}
-
 import {BsSearch} from 'react-icons/bs';
 import { useState } from 'react';
 import classes from './search.module.css';
+
+type SearchProps = {
+    loadAnime: (search: string) => Promise<void>; 
+}
 
 const Search = ({loadAnime}: SearchProps) => {
 

@@ -6,7 +6,7 @@ function App() {
   return (
     <div className={classes.app}>
       <h1>TFA</h1>
-      <Outlet/>
+      <Outlet />
     </div>
   )
 }
