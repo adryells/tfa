@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 const BackgroundMusic = () => {
   useEffect(() => {
-    const volume = 0.5;
+    const volume = 0.2;
 
     const audio = new Audio('/audios/beztebia.mp3');
     audio.volume = volume;
