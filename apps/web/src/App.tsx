@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div className={classes.app}>
-      <h1>TFA - Time to finish an anime</h1>
+      <a href="/"><h1>TFA - Time to finish an anime</h1></a>
       <BackgroundMusic />
       <Outlet />
     </div>

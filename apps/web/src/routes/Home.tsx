@@ -5,6 +5,9 @@ import Anime from "../components/Anime";
 import classes from "./Home.module.css";
 import Input from "../components/Input";
 import { TFAResultProps } from "../types/tfa";
+import AppConfig from "../config/AppConfig";
+
+const config = AppConfig
 
 function Home (){
     const [animes, setAnimes] = useState<AnimeProps[]>([]);
@@ -17,7 +20,7 @@ function Home (){
 
     const loadAnime = async (search: string) => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/graphql", {
+        const res = await fetch(`${config.API_URL}/graphql`, {
           method: "POST",
           headers: {
             'Accept': 'application/json',
@@ -66,7 +69,7 @@ function Home (){
 
     const registerAnime = async (numEpisodes: number, title: string, averageMinutesPerEp: number) => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/graphql", {
+        const res = await fetch(`${config.API_URL}/graphql`, {
           method: "POST",
           headers: {
             'Accept': 'application/json',
@@ -196,11 +199,14 @@ function Home (){
 
         {new_anime && 
         <div className={classes.new_anime}>
-          <h1>{new_anime.name}</h1>
-          <h2>{new_anime.numEpisodes}</h2>
-          <h3>{new_anime.averageEpDuration.toFixed(2)}</h3>
-          <h4>{new_anime.totalDays}</h4>
-          <h5>{new_anime.totalHours.toFixed(2)}</h5>
+          <div className={classes.new_anime_content}>
+            <h2>Titulo: {new_anime.name}</h2>
+            <p>Quantidade de episódios: {new_anime.numEpisodes}</p>
+            <p>Duração média do episódio: {new_anime.averageEpDuration.toFixed(2)} minutos.</p>
+            <p>São {new_anime.totalDays} dias para finalizar o anime dedicando {dedicated_hours}h por dia.</p>
+            <p>São {new_anime.totalHours.toFixed(2)} horas para finalizar o anime.</p>
+          </div>
+          <img src="https://www.pngmart.com/files/17/Cute-Anime-Girl-Transparent-PNG.png" />
         </div>
         }
       </div>

@@ -78,3 +78,30 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.new_anime{
+    background-color: #2b3566;
+    text-align: center;
+    display: flex;
+    flex-direction: row ;
+    margin: 1rem;
+    border-radius: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.new_anime .new_anime_content{
+    width: 50rem;
+    margin-right: 0;
+}
+
+.new_anime h1,h2,h3,h4,h5{
+    margin: 1rem;
+}
+
+.new_anime img{
+    align-self: flex-end;
+    margin-left: 30rem;
+    height: 20rem;
+    width: 20rem;
+}

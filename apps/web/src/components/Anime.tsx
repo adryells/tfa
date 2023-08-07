@@ -11,7 +11,7 @@ const Anime = ({
     id,
     dedicated_hours
   }: AnimeProps & { dedicated_hours: number }) => {
-    const rounded_hours_tfa = (totalDays / dedicated_hours).toFixed(2)
+    const rounded_hours_tfa = totalDays.toFixed(2)
     const rounded_days_tfa = (totalHours / dedicated_hours).toFixed(2)
 
     return (
