@@ -4,5 +4,11 @@
       "src": "main.py",
       "use": "@devjin8/vercel-poetry@latest"
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "main.py"
+    }
   ]
 }
