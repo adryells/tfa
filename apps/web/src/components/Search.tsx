@@ -20,15 +20,15 @@ const Search = ({loadAnime}: SearchProps) => {
         <div className={classes.search}>
             <h2>Busque por um anime: </h2>
             <div className={classes.search_container}>
-            <input 
-                type="text"
-                placeholder="Digite o nome do anime" 
-                onChange={e => setSearch(e.target.value)}
-                onKeyDown={handleKeyDown}
-            />
-            <button  onClick={() => {loadAnime(search)}}>
-                <BsSearch />
-            </button>
+                <input 
+                    type="text"
+                    placeholder="Digite o nome do anime" 
+                    onChange={e => setSearch(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
+                <button  onClick={() => {loadAnime(search)}}>
+                    <BsSearch />
+                </button>
             </div>
         </div>
     )

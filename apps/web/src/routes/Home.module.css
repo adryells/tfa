@@ -1,3 +1,76 @@
+.inputs_container {
+    display: flex;
+    background-color: #2b3566;
+    flex-direction: row;
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: 1rem;
+} 
+
+.search_animes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.register_anime{
+    display: flex;
+    flex-direction: column; 
+    flex-grow: 1;
+    font-size: small;
+    align-items: center ;
+}
+
+
+.register_anime input{
+    margin: 1%;
+    height: 2rem;
+    width: 20rem;
+    color: #2b3566;
+    font-size: small;
+    border: none;
+    padding: 1rem;
+}
+
+.register_anime button{
+    color: black;
+    font-size: 1.5rem; 
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    width: 20rem;
+    transition: 1s;
+  }
+
+.register_anime button:hover{
+    background-color: gray;
+}
+
+
+.result_container{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.result_container .intro img{
+    width: 20rem;
+    height: 20rem;
+}
+
+.result_container .intro h2, .result_container .intro p{
+    margin: 1rem;
+}
+
+.result_container .intro p{
+    margin: 1rem;
+    text-align: start;
+}
+
 .animes_container{
     width: 100%;
     height: 100%;
