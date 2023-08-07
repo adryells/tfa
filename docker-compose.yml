@@ -12,5 +12,16 @@ services:
       - POSTGRES_PASSWORD=tfa#123
       - POSTGRES_DB=tfa
 
+  api:
+    build:
+      context: "./apps/api/"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - .:/apps/api/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
 volumes:
   postgres_data:
