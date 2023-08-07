@@ -1,10 +1,8 @@
 {
-  "builds": [
-    {
-      "src": "main.py",
-      "use": "@devjin8/vercel-poetry@latest"
-    }
-  ],
+  "build": {
+    "src": "main.py",
+    "use": "@vercel/python"
+  },
   "routes": [
     {
       "src": "/(.*)",
