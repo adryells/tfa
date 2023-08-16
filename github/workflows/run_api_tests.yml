@@ -1,0 +1,50 @@
+name: Test API Dev
+
+on:
+  pull_request:
+    branches: ['master_for_tests_belt']
+    paths:
+      - apps/api/**
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: DEV
+    defaults:
+      run:
+        working-directory: ./apps/api
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: tfa
+          POSTGRES_PASSWORD: tfa#123
+          POSTGRES_DB: tfa
+        ports:
+          - 5432:5432
+
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    -
+      uses: actions/checkout@v3
+    -
+      name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version-file: './apps/api/.python-version'
+    -
+      name: Install dependencies
+      env:
+        INSTALL_DEV: true
+      run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+    -
+      name: Run tests
+      run: |
+        poetry add pytest-github-actions-annotate-failures
+        poetry run pytest -x -n auto -v
+      continue-on-error: false
