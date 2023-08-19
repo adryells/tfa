@@ -4,7 +4,7 @@ const BackgroundMusic = () => {
   useEffect(() => {
     const volume = 0.2;
 
-    const audio = new Audio('/audios/beztebia.mp3');
+    const audio = new Audio('/audios/lofi1.mp3');
     audio.volume = volume;
     audio.play();
 

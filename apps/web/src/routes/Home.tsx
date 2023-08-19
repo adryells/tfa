@@ -77,7 +77,7 @@ function Home (){
           },
           body: JSON.stringify({
             "variables": {
-              "availableHours": dedicated_hours,
+              "availableHours":dedicated_hours,
               "numEpisodes": numEpisodes,
               "title": title,
               "averageMinutesPerEp": averageMinutesPerEp
@@ -126,7 +126,8 @@ function Home (){
 
     const updateDedicatedHours = (e: ChangeEvent<HTMLInputElement>) => {
       const valueAsNumber = parseInt(e.target.value, 10); 
-      setDedicatedHours(valueAsNumber);
+      const validated_number = valueAsNumber > 0? valueAsNumber : 1
+      setDedicatedHours(validated_number);
     }
 
 
@@ -152,9 +153,9 @@ function Home (){
           {
           just_arrived && 
           <div className={classes.intro}>
-            <img src="https://www.pngplay.com/wp-content/uploads/12/Kawaii-Anime-Girl-PNG-Pic-Background.png" />
+            <img src="https://www.pngmart.com/files/17/Cute-Anime-Girl-Transparent-PNG.png" />
             <h2>Como usar?</h2>
-            <p>Bem vindo ao TFA!!! você tem 2 opçoes: </p>
+            <p>Bem vindo ao TFA!!! você tem 2 opções: </p>
             <p>A&#41; Nos campos na area á esquerda você pode buscar por um anime já registrado em nossa base de dados <br /> e logo abaixo informar suas horas disponiveis. <br /></p>
             <p>B&#41; Caso não encontre o anime que deseja você tem a opção de registra-lo na área superior direita. </p>
           </div>
@@ -206,7 +207,7 @@ function Home (){
             <p>São {new_anime.totalDays} dias para finalizar o anime dedicando {dedicated_hours}h por dia.</p>
             <p>São {new_anime.totalHours.toFixed(2)} horas para finalizar o anime.</p>
           </div>
-          <img src="https://www.pngmart.com/files/17/Cute-Anime-Girl-Transparent-PNG.png" />
+          <img src="https://cutewallpaper.org/24/anime-girl-png/download-anime-kawaii-and-girl-image-transparent-anime-girl-png-image-with-no-background-pngkeycom.png" />
         </div>
         }
       </div>
