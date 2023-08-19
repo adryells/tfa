@@ -10,9 +10,9 @@ const Search = ({loadAnime}: SearchProps) => {
 
     const [search, setSearch] = useState("");
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Enter" && search){
-            loadAnime(search)
+    const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key === "Enter" && search) {
+            loadAnime(search);
         }
     }
 
