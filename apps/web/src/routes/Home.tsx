@@ -155,7 +155,7 @@ function Home (){
           <div className={classes.intro}>
             <img src="https://www.pngmart.com/files/17/Cute-Anime-Girl-Transparent-PNG.png" />
             <h2>Como usar?</h2>
-            <p>Bem vindo ao TFA!!! você tem 2 opçoes: </p>
+            <p>Bem vindo ao TFA!!! você tem 2 opções: </p>
             <p>A&#41; Nos campos na area á esquerda você pode buscar por um anime já registrado em nossa base de dados <br /> e logo abaixo informar suas horas disponiveis. <br /></p>
             <p>B&#41; Caso não encontre o anime que deseja você tem a opção de registra-lo na área superior direita. </p>
           </div>
