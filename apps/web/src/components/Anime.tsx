@@ -8,7 +8,6 @@ const Anime = ({
     averageEpDuration,
     totalDays,
     totalHours,
-    id,
     dedicated_hours
   }: AnimeProps & { dedicated_hours: number }) => {
     const rounded_hours_tfa = totalDays.toFixed(2)

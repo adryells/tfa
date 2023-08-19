@@ -1,0 +1,15 @@
+(cors) {
+        header {
+                Access-Control-Allow-Origin *
+                Access-Control-Expose-Headers *
+                Access-Control-Allow-Methods GET,POST,OPTIONS,HEAD
+        }
+}
+
+http://:8000 {
+    import cors
+
+    tls internal
+
+    reverse_proxy 0.0.0.0:8000
+}
