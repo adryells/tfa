@@ -153,7 +153,7 @@ function Home (){
           {
           just_arrived && 
           <div className={classes.intro}>
-            <img src="https://www.pngmart.com/files/17/Cute-Anime-Girl-Transparent-PNG.png" />
+            <img src="/img/homegirl.png" />
             <h2>Como usar?</h2>
             <p>Bem vindo ao TFA!!! você tem 2 opções: </p>
             <p>A&#41; Nos campos na area á esquerda você pode buscar por um anime já registrado em nossa base de dados <br /> e logo abaixo informar suas horas disponiveis. <br /></p>
@@ -207,7 +207,7 @@ function Home (){
             <p>São {new_anime.totalDays} dias para finalizar o anime dedicando {dedicated_hours}h por dia.</p>
             <p>São {new_anime.totalHours.toFixed(2)} horas para finalizar o anime.</p>
           </div>
-          <img src="https://cutewallpaper.org/24/anime-girl-png/download-anime-kawaii-and-girl-image-transparent-anime-girl-png-image-with-no-background-pngkeycom.png" />
+          <img src="/img/resultgirl.png" />
         </div>
         }
       </div>
