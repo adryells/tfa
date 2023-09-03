@@ -1,0 +1,38 @@
+#login{
+    display: flex;
+    height: 30rem;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#login input, button{
+    margin: 1rem;
+    border: none;
+    width: 20rem;
+    height: 2rem;
+    padding: 0.2rem;
+    color: black;
+}
+
+#login button[type="submit"]{
+    border-radius: 10rem;
+    color: black;
+    cursor: pointer;
+    transition: ease-in 0.5s;
+}
+
+#login button[type="submit"]:hover{
+    border-radius: 50rem;
+    background-color: wheat;
+}
+
+#login img{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 10rem;
+    border: 3px solid purple;
+    background-color: white;
+}
