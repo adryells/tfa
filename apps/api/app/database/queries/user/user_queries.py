@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy import func
 from sqlalchemy.orm import Query
 
@@ -15,12 +17,12 @@ class UserQueries(BaseQueries):
 
         return exists
 
-    def get_user_by_username(self, username: str) -> User | None:
+    def get_user_by_username(self, username: str) -> Optional[User]:
         user = self.session.query(User).filter(func.lower(User.username) == username.lower()).one_or_none()
 
         return user
 
-    def get_user_by_id(self, user_id: int) -> User | None:
+    def get_user_by_id(self, user_id: int) -> Optional[User]:
         user = self.session.query(User).filter(User.id == user_id).one_or_none()
 
         return user
@@ -60,7 +62,7 @@ class UserQueries(BaseQueries):
 
         return query.count()
 
-    def get_user_by_email(self, email: str) -> User | None:
+    def get_user_by_email(self, email: str) -> Optional[User]:
         user = self.session.query(User).filter(func.lower(User.email) == email.lower()).one_or_none()
 
         return user

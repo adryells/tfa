@@ -1,12 +1,14 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
 class RequestAnimeChangeData(BaseModel):
     anime_id: int
     reason: str
-    additional_info: str | None
-    name: str | None
-    image_url: str | None
-    synopsis: str | None
-    num_episodes: int | None
-    average_ep_duration: int | None
+    additional_info: Optional[str]
+    name: Optional[str]
+    image_url: Optional[str]
+    synopsis: Optional[str]
+    num_episodes: Optional[int]
+    average_ep_duration: Optional[int]

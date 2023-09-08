@@ -12,12 +12,12 @@ class SourceDataQueries(BaseQueries):
 
         return exists
 
-    def get_source_data_by_slug(self, slug: str) -> SourceData | None:
+    def get_source_data_by_slug(self, slug: str) -> Optional[SourceData]:
         source_data = self.session.query(SourceData).filter(SourceData.slug == slug).one_or_none()
 
         return source_data
 
-    def get_source_data_by_id(self, source_data_id: int) -> SourceData | None:
+    def get_source_data_by_id(self, source_data_id: int) -> Optional[SourceData]:
         source_data = self.session.query(SourceData).filter(SourceData.id == source_data_id).one_or_none()
 
         return source_data

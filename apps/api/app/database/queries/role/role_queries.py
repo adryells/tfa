@@ -1,3 +1,5 @@
+from typing import Optional
+
 from app.database.queries import BaseQueries
 from app.database.models.role.basic import Role
 
@@ -11,12 +13,12 @@ class RoleQueries(BaseQueries):
 
         return exists
 
-    def get_role_by_slug(self, slug: str) -> Role | None:
+    def get_role_by_slug(self, slug: str) -> Optional[Role]:
         role = self.session.query(Role).filter(Role.slug == slug).one_or_none()
 
         return role
 
-    def get_role_by_id(self, role_id: int) -> Role | None:
+    def get_role_by_id(self, role_id: int) -> Optional[Role]:
         role = self.session.query(Role).filter(Role.id == role_id).one_or_none()
 
         return role

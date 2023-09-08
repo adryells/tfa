@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy import asc, desc
 from sqlalchemy.orm import Query
 
@@ -6,7 +8,7 @@ from app.database.queries import BaseQueries
 
 
 class AnimeQueries(BaseQueries):
-    def get_anime_by_id(self, anime_id: int) -> Anime | None:
+    def get_anime_by_id(self, anime_id: int) -> Optional[Anime]:
         anime = self.get_one_or_none_by_id(Anime, anime_id)
 
         return anime
