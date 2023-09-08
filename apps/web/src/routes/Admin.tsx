@@ -28,7 +28,7 @@ function Admin() {
     requestchanges: {
       name: "Request Changes",
       component: <RequestChanges />,
-    },
+    }
   };
 
   const updateCurrentPage = (pageName: string) => {
