@@ -1,0 +1,37 @@
+.admin {
+  display: flex;
+}
+  
+.sidebar {
+  width: 200px;
+  background-color: #333;
+  color: white;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  border-bottom: 1px solid #555;
+}
+
+.sidebar li:last-child {
+  border-bottom: none;
+}
+
+.active_tab {
+  background-color: #007bff; 
+  font-weight: bold; 
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
