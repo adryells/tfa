@@ -9,6 +9,7 @@ function RequestChanges(){
     const [request_changes, setRequestChanges] = useState<RequestChangeProps[] | null>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const currentPerPage = 10;
+  
 
     const loadRequestChanges = async (anime_id: number | null, page: number, per_page: number) => {
         try {
@@ -70,6 +71,46 @@ function RequestChanges(){
         loadRequestChanges(null, currentPage, currentPerPage);
     };
 
+    const handleUpdateRequestChange = async (request_change_id: number, accepted: boolean) => {
+      try {
+        const res = await fetch(`${config.API_URL}/graphql`, {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "variables": {
+              "request_change_id": request_change_id,
+              "accepted": accepted
+            },
+            "query": `mutation update_request_change(
+              $request_change_id: Int!,
+              $accepted: Boolean!
+            ){
+              UpdateRequestChange(inputUpdateRequestChange:{
+                requestChangeId: $request_change_id,
+                accepted: $accepted
+              }){
+                requestChange{
+                  id
+                  accepted
+                }
+              }
+            }`
+          })
+        });
+  
+        if (!res.ok) {
+          throw new Error("Erro na chamada da API");
+        }
+  
+      } catch (error: Error | any) {
+        console.error("Ocorreu um erro:", error.message);
+      }
+    };
+
+
     return (
         <div className={styles.request_changes_container}>
             <div className={styles.request_changes_items}>
@@ -83,6 +124,10 @@ function RequestChanges(){
                         <div>Inormações adicionais: {request_change.additionalInfo}</div>
                         <div>Dados para alterar: {request_change.changeData}</div>
                         <div>Data de criação: {new Date(request_change.createdAt).toLocaleDateString()}</div>
+                        <div>
+                          <button onClick={()=>handleUpdateRequestChange(request_change.id, true)}>Accept request</button>
+                          <button onClick={()=>handleUpdateRequestChange(request_change.id, false)}>Reject request</button>
+                        </div>
                     </div>
                 ))}
             </div>
