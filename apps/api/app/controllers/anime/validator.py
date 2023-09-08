@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, validator
 
 
@@ -26,12 +28,12 @@ class CalculateTFAData(BaseModel):
 
 class UpdateAnimeData(BaseModel):
     anime_id: int
-    name: str | None
-    synopsis: str | None
-    num_episodes: int | None
-    average_ep_duration: int | None
-    source_data_id: int | None
-    active: bool | None
-    request_change_id: int | None
-    medium_image_id: int | None
-    large_image_id: int | None
+    name: Optional[str]
+    synopsis: Optional[str]
+    num_episodes: Optional[int]
+    average_ep_duration: Optional[int]
+    source_data_id: Optional[int]
+    active: Optional[bool]
+    request_change_id: Optional[int]
+    medium_image_id: Optional[int]
+    large_image_id: Optional[int]

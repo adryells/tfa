@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import Query
 
 from app.database.queries import BaseQueries
@@ -5,7 +7,7 @@ from app.database.models.anime.request_change import RequestChange
 
 
 class RequestChangeQueries(BaseQueries):
-    def get_request_change_by_id(self, request_change_id: int) -> RequestChange | None:
+    def get_request_change_by_id(self, request_change_id: int) -> Optional[RequestChange]:
         request_change = self.get_one_or_none_by_id(RequestChange, request_change_id)
 
         return request_change

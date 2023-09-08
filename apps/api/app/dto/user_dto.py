@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 from pydantic import BaseModel, validate_email, validator
 
@@ -89,20 +90,13 @@ class InputPasswordDataValidator(BaseModel):
 
 class InputUpdateUserDataValidator(InputCreateUserDataValidator):
     user_id: int
-
-    username: str | None
-
-    email: str | None
-
-    input_password: InputPasswordDataValidator | None
-
+    username: Optional[str]
+    email: Optional[str]
+    input_password: Optional[InputPasswordDataValidator]
     password: None = None
-
-    role_id: int | None
-
-    profile_picture_id: int | None
-
-    active: bool | None
+    role_id: Optional[int]
+    profile_picture_id: Optional[int]
+    active: Optional[bool]
 
 
 class InputSignupDataValidator(BaseModel):

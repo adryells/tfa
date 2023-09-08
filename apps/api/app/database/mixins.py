@@ -16,11 +16,11 @@ class CreatedUpdatedDeletedMixin(SoftDeleteMixin):
 
 
 def create_linking_table(
-        left: type[DbBaseModel],
-        right: type[DbBaseModel],
-        basemodel: type[DbBaseModel] = DbBaseModel,
-        ondelete: str | None = None,
-        table_name: str | None = None
+        left: DbBaseModel,
+        right: DbBaseModel,
+        basemodel: DbBaseModel = DbBaseModel,
+        ondelete: str = None,
+        table_name: str = None
 ) -> Table:
 
     left_column_name: str = f"{left.__name__.lower()}_{left.id.name}"

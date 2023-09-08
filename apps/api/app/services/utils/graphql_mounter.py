@@ -1,7 +1,9 @@
+from typing import Type, Union
+
 from graphene import ObjectType, Mutation, Field
 
 
-def mount_object(object_type: type[Mutation] | type[ObjectType]):
+def mount_object(object_type: Union[Type[Mutation], Type[ObjectType]]):
     is_mutation = issubclass(object_type, Mutation)
 
     relation_name = object_type.__name__

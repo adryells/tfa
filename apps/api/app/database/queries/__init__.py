@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Type, Optional
 
 from sqlalchemy.orm import Session, Query
 
@@ -9,7 +9,7 @@ class BaseQueries:
     def __init__(self, session: Session):
         self.session = session
 
-    def get_one_or_none_by_id(self, model_class: Type[DbBaseModel], object_id: int) -> Type[DbBaseModel] | None:
+    def get_one_or_none_by_id(self, model_class: Type[DbBaseModel], object_id: int) -> Optional[Type[DbBaseModel]]:
         obj = self.session.query(model_class).filter(model_class.id == object_id).one_or_none()
 
         return obj
