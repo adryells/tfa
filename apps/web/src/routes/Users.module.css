@@ -1,0 +1,43 @@
+.pagination_bar{
+    display: flex;
+    background-color: none;
+    justify-content: center;
+    align-self: center;
+}
+
+.pagination_bar button{
+    border-radius: 1rem;
+    width: 5rem;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.pagination_bar button:hover{
+    background-color: darkslateblue;
+    transform: translateY(-2px); 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user_items{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.user_item{
+    background-color: rebeccapurple;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: background-color 0.8s;
+}
+
+.user_item:hover{
+    background-color: darkslateblue;
+    transform: translateY(-2px); 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
