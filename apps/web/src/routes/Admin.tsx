@@ -3,6 +3,7 @@ import styles from "./Admin.module.css";
 import { useState } from "react";
 import Users from "./Users";
 import RequestChanges from "./RequestChange";
+import Animes from "./Animes";
 
 interface Page {
   name: string;
@@ -10,7 +11,9 @@ interface Page {
 }
 
 function Admin() {
-  const [currentPageElement, setCurrentPageElement] = useState<JSX.Element>(<Users />);
+  const [currentPageElement, setCurrentPageElement] = useState<JSX.Element>(
+    <Users />
+  );
   const [currentPageElementName, setCurrentPageElementName] = useState("users");
 
   const location = useLocation();
@@ -29,10 +32,14 @@ function Admin() {
       name: "Request Changes",
       component: <RequestChanges />,
     },
+    animes: {
+      name: "Animes",
+      component: <Animes />,
+    },
   };
 
   const updateCurrentPage = (pageName: string) => {
-    console.log(pageName)
+    console.log(pageName);
     const page = PAGES[pageName];
     if (page) {
       setCurrentPageElementName(pageName);
@@ -47,7 +54,9 @@ function Admin() {
           {Object.keys(PAGES).map((pageName) => (
             <li
               key={pageName}
-              className={currentPageElementName === pageName ? styles.active_tab : ""}
+              className={
+                currentPageElementName === pageName ? styles.active_tab : ""
+              }
               onClick={() => updateCurrentPage(pageName)}
             >
               {PAGES[pageName].name}

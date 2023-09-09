@@ -1,107 +1,110 @@
 .inputs_container {
-    display: flex;
-    background-color: #2b3566;
-    flex-direction: row;
-    margin-top: 2rem;
-    padding: 2rem;
-    border-radius: 1rem;
-} 
-
-.search_animes{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
+  display: flex;
+  background-color: #2b3566;
+  flex-direction: row;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
-.register_anime{
-    display: flex;
-    flex-direction: column; 
-    flex-grow: 1;
-    font-size: small;
-    align-items: center ;
+.search_animes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
 }
 
-
-.register_anime input{
-    margin: 1%;
-    height: 2rem;
-    width: 20rem;
-    color: #2b3566;
-    font-size: small;
-    border: none;
-    padding: 1rem;
+.register_anime {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  font-size: small;
+  align-items: center;
 }
 
-.register_anime button{
-    color: black;
-    font-size: 1.5rem; 
-    border: none;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    width: 20rem;
-    transition: 1s;
-  }
-
-.register_anime button:hover{
-    background-color: gray;
+.register_anime input {
+  margin: 1%;
+  height: 2rem;
+  width: 20rem;
+  color: #2b3566;
+  font-size: small;
+  border: none;
+  padding: 1rem;
 }
 
-
-.result_container{
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.register_anime button {
+  color: black;
+  font-size: 1.5rem;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  width: 20rem;
+  transition: 1s;
 }
 
-.result_container .intro img{
-    width: 20rem;
-    height: 20rem;
+.register_anime button:hover {
+  background-color: gray;
 }
 
-.result_container .intro h2, .result_container .intro p{
-    margin: 1rem;
+.result_container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.result_container .intro p{
-    margin: 1rem;
-    text-align: start;
+.result_container .intro img {
+  width: 20rem;
+  height: 20rem;
 }
 
-.animes_container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+.result_container .intro h2,
+.result_container .intro p {
+  margin: 1rem;
 }
 
-.new_anime{
-    background-color: #2b3566;
-    text-align: center;
-    display: flex;
-    flex-direction: row ;
-    margin: 1rem;
-    border-radius: 1rem;
-    justify-content: center;
-    align-items: center;
+.result_container .intro p {
+  margin: 1rem;
+  text-align: start;
 }
 
-.new_anime .new_anime_content{
-    width: 50rem;
-    margin-right: 0;
+.animes_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.new_anime h1,h2,h3,h4,h5{
-    margin: 1rem;
+.new_anime {
+  background-color: #2b3566;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+  border-radius: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
-.new_anime img{
-    align-self: flex-end;
-    margin-left: 30rem;
-    height: 20rem;
-    width: 20rem;
+.new_anime .new_anime_content {
+  width: 50rem;
+  margin-right: 0;
+}
+
+.new_anime h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 1rem;
+}
+
+.new_anime img {
+  align-self: flex-end;
+  margin-left: 30rem;
+  height: 20rem;
+  width: 20rem;
 }

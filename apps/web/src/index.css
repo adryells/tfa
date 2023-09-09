@@ -1,20 +1,20 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
-    color: white;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  color: white;
 }
 
-body{
-    background-color: #0e1129;
-    padding: 2rem;
+body {
+  background-color: #0e1129;
+  padding: 2rem;
 }
 
-p{
-    text-align: center;
+p {
+  text-align: center;
 }
 
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
 }
