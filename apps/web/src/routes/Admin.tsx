@@ -3,6 +3,7 @@ import styles from "./Admin.module.css";
 import { useState } from "react";
 import Users from "./Users";
 import RequestChanges from "./RequestChange";
+import Animes from "./Animes";
 
 interface Page {
   name: string;
@@ -28,6 +29,10 @@ function Admin() {
     requestchanges: {
       name: "Request Changes",
       component: <RequestChanges />,
+    },
+    animes: {
+      name: "Animes",
+      component: <Animes />
     }
   };
 

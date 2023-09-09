@@ -8,11 +8,13 @@ const Anime = ({
     averageEpDuration,
     totalDays,
     totalHours,
-    dedicated_hours
+    dedicated_hours,
+    active
   }: AnimeProps & { dedicated_hours: number }) => {
     const rounded_hours_tfa = totalDays.toFixed(2)
     const validated_dedicated_hours = dedicated_hours > 0? dedicated_hours: 1 
     const rounded_days_tfa = (totalHours / validated_dedicated_hours).toFixed(2)
+    active
 
     return (
         <div className={classes.anime}>

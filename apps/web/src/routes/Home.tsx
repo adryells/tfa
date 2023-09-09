@@ -40,6 +40,7 @@ function Home (){
                     averageEpDuration
                     totalHours
                     totalDays
+                    active
                     relatedMedia {
                       url
                       sizeTypeId
@@ -194,6 +195,7 @@ function Home (){
               totalDays={anime.totalDays} 
               totalHours={anime.totalHours}
               dedicated_hours={dedicated_hours}
+              active={anime.active}
             />
           ))}
         </div>
