@@ -24,16 +24,16 @@ function Users() {
       const res = await fetch(`${config.API_URL}/graphql`, {
         method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "variables": {
-            "search": search,
-            "page": page,
-            "perpage": per_page
-        },
-          "query": `query users($search: String, $page: Int, $perpage: Int){
+          variables: {
+            search: search,
+            page: page,
+            perpage: per_page,
+          },
+          query: `query users($search: String, $page: Int, $perpage: Int){
             User{
               users(search: $search, page: $page, perPage: $perpage){
                 totalCount
@@ -50,31 +50,30 @@ function Users() {
                 }
               }
             }
-          }`
-        })
+          }`,
+        }),
       });
-  
+
       if (!res.ok) {
         throw new Error("Erro na chamada da API");
       }
-  
+
       const response_json = await res.json();
       const user_items = response_json["data"]["User"]["users"]["items"];
-      
-      setUsers(user_items)
-  
+
+      setUsers(user_items);
     } catch (error: Error | any) {
       console.error("Ocorreu um erro:", error.message);
     }
-  }
+  };
 
   useEffect(() => {
     loadUsers("", currentPage, currentPerPage);
-}, [currentPage]);
+  }, [currentPage]);
 
   const loadPage = (page: number) => {
-      setCurrentPage(page);
-      loadUsers("", page, currentPerPage);
+    setCurrentPage(page);
+    loadUsers("", page, currentPerPage);
   };
 
   const openModal = (user: UserProps) => {
@@ -102,22 +101,22 @@ function Users() {
       const res = await fetch(`${config.API_URL}/graphql`, {
         method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "variables": {
-            "userid": selectedUser?.id,
-            "username": username,
-            "email": email,
-            "inputPassword": {
-              "currentPassword": currentPassword,
-              "newPassword": newPassword
+          variables: {
+            userid: selectedUser?.id,
+            username: username,
+            email: email,
+            inputPassword: {
+              currentPassword: currentPassword,
+              newPassword: newPassword,
             },
-            "roleid": roleId,
-            "active": active
+            roleid: roleId,
+            active: active,
           },
-          "query": `mutation updateuser (
+          query: `mutation updateuser (
             $userid: Int!,
             $username: String,
             $email: String,
@@ -137,8 +136,8 @@ function Users() {
                 id
               }
             }
-          }`
-        })
+          }`,
+        }),
       });
 
       if (!res.ok) {
@@ -154,24 +153,25 @@ function Users() {
   return (
     <div className={styles.users_container}>
       <div className={styles.user_items}>
-      {users?.map((user) => (
+        {users?.map((user) => (
           <div
             key={user.id}
             className={styles.user_item}
-            onClick={() => openModal(user)} 
+            onClick={() => openModal(user)}
           >
             <div>ID: {user.id}</div>
             <div>Situation: {user.active ? "ACTIVE" : "INACTIVE"}</div>
             <div>E-mail: {user.email}</div>
             <div>Username: {user.username}</div>
-            <div>Created at: {new Date(user.createdAt).toLocaleDateString()}</div>
-
+            <div>
+              Created at: {new Date(user.createdAt).toLocaleDateString()}
+            </div>
           </div>
         ))}
       </div>
 
       <div className={styles.pagination_bar}>
-      <button onClick={() => loadPage(currentPage - 1)}>&larr;</button>
+        <button onClick={() => loadPage(currentPage - 1)}>&larr;</button>
         <button onClick={() => loadPage(currentPage + 1)}>&rarr;</button>
       </div>
 
@@ -249,7 +249,7 @@ function Users() {
                 onChange={(e) => setNewPassword(e.target.value)}
               />
             </div>
-            
+
             <button onClick={handleUpdateUser}>Confirm Changes</button>
             <button onClick={closeModal}>Fechar</button>
           </div>

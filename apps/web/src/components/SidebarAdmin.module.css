@@ -1,7 +1,7 @@
 .admin {
   display: flex;
 }
-  
+
 .sidebar {
   width: 200px;
   background-color: #333;
@@ -23,8 +23,8 @@
 }
 
 .active_tab {
-  background-color: #007bff; 
-  font-weight: bold; 
+  background-color: #007bff;
+  font-weight: bold;
 }
 
 .sidebar a {

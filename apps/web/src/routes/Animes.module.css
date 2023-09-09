@@ -1,117 +1,122 @@
-.pagination_bar{
-    display: flex;
-    background-color: none;
-    justify-content: center;
-    align-self: center;
+.pagination_bar {
+  display: flex;
+  background-color: none;
+  justify-content: center;
+  align-self: center;
 }
 
-.pagination_bar button{
-    border-radius: 1rem;
-    width: 5rem;
-    cursor: pointer;
-    transition: background-color 0.5s;
+.pagination_bar button {
+  border-radius: 1rem;
+  width: 5rem;
+  cursor: pointer;
+  transition: background-color 0.5s;
 }
 
-.pagination_bar button:hover{
-    background-color: darkslateblue;
-    transform: translateY(-2px); 
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+.pagination_bar button:hover {
+  background-color: darkslateblue;
+  transform: translateY(-2px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.animes_items{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-    justify-content: center;
-    align-items: center;
+.animes_items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
-.anime{
-    background-color: rebeccapurple;
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    transition: background-color 0.8s;
-    max-width: 40rem;
+.anime {
+  background-color: rebeccapurple;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.8s;
+  max-width: 40rem;
 }
 
-.anime:hover{
-    background-color: darkslateblue;
-    transform: translateY(-2px); 
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+.anime:hover {
+  background-color: darkslateblue;
+  transform: translateY(-2px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.anime div{
-    width: 100%;
-    margin: 0.5rem;
+.anime div {
+  width: 100%;
+  margin: 0.5rem;
 }
 
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999; 
-  }
-  
-  .modal_content {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 80%; 
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  
-  .modal_content button {
-    background-color: darkslateblue;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: background-color 0.7s;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
 
-  .modal_content button {
-    background-color: green;
-    transition: background-color 0.3s;
-  }
-  
-  .modal_content button:last-child {
-    background-color: red;
-  }
+.modal_content {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
 
-  .modal_content button:hover{
-    transform: translateY(-2px); 
-    background-color: transparent;
-    color: black;
-    box-shadow: 2px 5px 7px rgba(0, 0, 0, 0.2);
-  }
-  
-  .modal_content div, .modal_content div label{
-    color: black;
-  }
+.modal_content button {
+  background-color: darkslateblue;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.7s;
+}
 
-  .modal_content div{
-    width: 100%;
-    margin: 1rem auto;
-  }
+.modal_content button {
+  background-color: green;
+  transition: background-color 0.3s;
+}
 
-.modal_content div input, .modal_content div textarea, .modal_content div label, .modal_content div select, .modal_content div select option{
+.modal_content button:last-child {
+  background-color: red;
+}
+
+.modal_content button:hover {
+  transform: translateY(-2px);
+  background-color: transparent;
+  color: black;
+  box-shadow: 2px 5px 7px rgba(0, 0, 0, 0.2);
+}
+
+.modal_content div,
+.modal_content div label {
+  color: black;
+}
+
+.modal_content div {
+  width: 100%;
+  margin: 1rem auto;
+}
+
+.modal_content div input,
+.modal_content div textarea,
+.modal_content div label,
+.modal_content div select,
+.modal_content div select option {
   width: 100%;
   margin: 0.2rem;
   color: black;

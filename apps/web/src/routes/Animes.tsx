@@ -3,39 +3,44 @@ import AppConfig from "../config/AppConfig";
 import styles from "./Animes.module.css";
 import { AnimeProps } from "../types/anime";
 
-const config = AppConfig
+const config = AppConfig;
 
-function Animes(){
-    const [animes, setAnimes] = useState<AnimeProps[] | null>([]);
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [selectedAnime, setSelectedAnime] = useState<AnimeProps | null>(null);
-    const [num_episodes, setNumEpisodes] = useState<number | null>(null);
-    const [name, setName] = useState<string | null>("");
-    const [average_ep_duration, setAverageEpDuration] = useState<number | null>(null);
-    const [active, setActive] = useState<boolean | null>(null);
-    const [request_change_id, setRequestChangeId] = useState<number | null>(null);
-    const [synopsis, setSynopsis] = useState<string | null>("");
-    const [source_data_id, setSourceDataId] = useState<number | null>(null);
+function Animes() {
+  const [animes, setAnimes] = useState<AnimeProps[] | null>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedAnime, setSelectedAnime] = useState<AnimeProps | null>(null);
+  const [num_episodes, setNumEpisodes] = useState<number | null>(null);
+  const [name, setName] = useState<string | null>("");
+  const [average_ep_duration, setAverageEpDuration] = useState<number | null>(
+    null
+  );
+  const [active, setActive] = useState<boolean | null>(null);
+  const [request_change_id, setRequestChangeId] = useState<number | null>(null);
+  const [synopsis, setSynopsis] = useState<string | null>("");
+  const [source_data_id, setSourceDataId] = useState<number | null>(null);
 
-    const currentPerPage = 10;
-  
+  const currentPerPage = 10;
 
-    const loadAnimes = async (search: string | null, page: number, per_page: number) => {
-        try {
-          const res = await fetch(`${config.API_URL}/graphql`, {
-            method: "POST",
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              "variables": {
-                "search": search,
-                "page": page,
-                "perpage": per_page
-            },
-              "query": `query($search: String, $page: Int, $perpage: Int) {
+  const loadAnimes = async (
+    search: string | null,
+    page: number,
+    per_page: number
+  ) => {
+    try {
+      const res = await fetch(`${config.API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          variables: {
+            search: search,
+            page: page,
+            perpage: per_page,
+          },
+          query: `query($search: String, $page: Int, $perpage: Int) {
                 Animes {
                   animes(search: $search, page: $page, perPage: $perpage) {
                     totalCount
@@ -52,62 +57,61 @@ function Animes(){
                   }
                 }
               }
-              `
-            })
-          });
-      
-          if (!res.ok) {
-            throw new Error("Erro na chamada da API");
-          }
-      
-          const response_json = await res.json();
-          const anime_items = response_json["data"]["Animes"]["animes"]["items"];
-          
-          setAnimes(anime_items)
-      
-        } catch (error: Error | any) {
-          console.error("Ocorreu um erro:", error.message);
-        }
+              `,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Erro na chamada da API");
       }
 
-      useEffect(() => {
-        loadAnimes(null, currentPage, currentPerPage);
-    }, [currentPage]);
+      const response_json = await res.json();
+      const anime_items = response_json["data"]["Animes"]["animes"]["items"];
 
-    const loadPage = (page: number) => {
-        setCurrentPage(page);
-        loadAnimes(null, currentPage, currentPerPage);
-    };
+      setAnimes(anime_items);
+    } catch (error: Error | any) {
+      console.error("Ocorreu um erro:", error.message);
+    }
+  };
 
-    const handleUpdateAnime = async (
-        request_change_id: number | null,
-        anime_id: number | null, 
-        name: string | null,
-        active: boolean | null,
-        num_episodes: number | null,
-        synopsis: string | null,
-        average_ep_duration: number | null,
-        source_data_id: number | null
-        ) => {
-      try {
-        const res = await fetch(`${config.API_URL}/graphql`, {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+  useEffect(() => {
+    loadAnimes(null, currentPage, currentPerPage);
+  }, [currentPage]);
+
+  const loadPage = (page: number) => {
+    setCurrentPage(page);
+    loadAnimes(null, currentPage, currentPerPage);
+  };
+
+  const handleUpdateAnime = async (
+    request_change_id: number | null,
+    anime_id: number | null,
+    name: string | null,
+    active: boolean | null,
+    num_episodes: number | null,
+    synopsis: string | null,
+    average_ep_duration: number | null,
+    source_data_id: number | null
+  ) => {
+    try {
+      const res = await fetch(`${config.API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          variables: {
+            request_change_id: request_change_id,
+            animeid: anime_id,
+            active: active,
+            source_data_id: source_data_id,
+            num_episodes: num_episodes,
+            synopsis: synopsis,
+            name: name,
+            average_ep_duration: average_ep_duration,
           },
-          body: JSON.stringify({
-            "variables": {
-              "request_change_id": request_change_id,
-              "animeid": anime_id,
-              "active": active,
-              "source_data_id": source_data_id,
-              "num_episodes": num_episodes,
-              "synopsis": synopsis,
-              "name": name,
-              "average_ep_duration": average_ep_duration
-            },
-            "query": `mutation update_anime(
+          query: `mutation update_anime(
                 $request_change_id: Int,
                 $active: Boolean,
                 $source_data_id: Int,
@@ -131,20 +135,18 @@ function Animes(){
                     id
                   }
                 }
-              }`
-          })
-        });
-  
-        if (!res.ok) {
-          throw new Error("Erro na chamada da API");
-        }
-  
-      } catch (error: Error | any) {
-        console.error("Ocorreu um erro:", error.message);
-      }
-    };
+              }`,
+        }),
+      });
 
-    
+      if (!res.ok) {
+        throw new Error("Erro na chamada da API");
+      }
+    } catch (error: Error | any) {
+      console.error("Ocorreu um erro:", error.message);
+    }
+  };
+
   const openModal = (anime: AnimeProps) => {
     setSelectedAnime(anime);
     setIsModalOpen(true);
@@ -154,9 +156,9 @@ function Animes(){
     setAverageEpDuration(anime.averageEpDuration);
     setActive(anime.active);
 
-    setRequestChangeId(anime.request_change_id)
-    setSynopsis(anime.synopsis)
-    setSourceDataId(anime.source_data_id)
+    setRequestChangeId(anime.request_change_id);
+    setSynopsis(anime.synopsis);
+    setSourceDataId(anime.source_data_id);
   };
 
   const closeModal = () => {
@@ -167,34 +169,39 @@ function Animes(){
     setName("");
     setAverageEpDuration(null);
     setActive(null);
-    setRequestChangeId(null)
-    setSynopsis(null)
-    setSourceDataId(null)
+    setRequestChangeId(null);
+    setSynopsis(null);
+    setSourceDataId(null);
   };
 
+  return (
+    <div className={styles.animes_container}>
+      <div className={styles.animes_items}>
+        {animes?.map((anime) => (
+          <div
+            key={anime.id}
+            className={styles.anime}
+            onClick={() => {
+              openModal(anime);
+            }}
+          >
+            <div>ID: {anime.id}</div>
+            <div>Numº episodes: {anime.numEpisodes}</div>
+            <div>Average episode duration: {anime.averageEpDuration}</div>
+            <div>Synopsis: {anime.synopsis}</div>
+            <div>Total Days: {anime.totalDays}</div>
+            <div>Total hours: {anime.totalHours}</div>
+            <div>Active: {anime.active ? "ACTIVE" : "INACTIVE"}</div>
+          </div>
+        ))}
+      </div>
 
-    return (
-        <div className={styles.animes_container}>
-            <div className={styles.animes_items}>
-                {animes?.map((anime) => (
-                    <div key={anime.id} className={styles.anime} onClick={() => {openModal(anime)}}>
-                        <div>ID: {anime.id}</div>
-                        <div>Numº episodes: {anime.numEpisodes}</div>
-                        <div>Average episode duration: {anime.averageEpDuration}</div>
-                        <div>Synopsis: {anime.synopsis}</div>
-                        <div>Total Days: {anime.totalDays}</div>
-                        <div>Total hours: {anime.totalHours}</div>
-                        <div>Active: {anime.active ? "ACTIVE" : "INACTIVE"}</div>
-                    </div>
-                ))}
-            </div>
+      {isModalOpen && selectedAnime && (
+        <div className={styles.modal}>
+          <div className={styles.modal_content}>
+            <div>ID: {selectedAnime.id}</div>
 
-            {isModalOpen && selectedAnime && (
-                <div className={styles.modal}>
-                <div className={styles.modal_content}>
-                    <div>ID: {selectedAnime.id}</div>
-
-                    <div>
+            <div>
               <label htmlFor="name">Username:</label>
               <input
                 type="text"
@@ -206,14 +213,13 @@ function Animes(){
             </div>
 
             <div>
-                <label htmlFor="synopsis">Synopsis:</label>
+              <label htmlFor="synopsis">Synopsis:</label>
               <textarea
                 id="synopsis"
                 name="synopsis"
                 value={synopsis ? synopsis : ""} // Use o valor do estado diretamente
                 onChange={(e) => setSynopsis(e.target.value)}
-                />
-
+              />
             </div>
 
             <div>
@@ -265,32 +271,34 @@ function Animes(){
               />
             </div>
 
-                    <button onClick={()=>{handleUpdateAnime(
-                        request_change_id, 
-                        selectedAnime.id, 
-                        name,
-                        active,
-                        num_episodes,
-                        synopsis,
-                        average_ep_duration,
-                        source_data_id
-                        )}}>Confirm Changes</button>
-                    <button onClick={closeModal}>Fechar</button>
-                </div>
-                </div>
+            <button
+              onClick={() => {
+                handleUpdateAnime(
+                  request_change_id,
+                  selectedAnime.id,
+                  name,
+                  active,
+                  num_episodes,
+                  synopsis,
+                  average_ep_duration,
+                  source_data_id
+                );
+              }}
+            >
+              Confirm Changes
+            </button>
+            <button onClick={closeModal}>Fechar</button>
+          </div>
+        </div>
       )}
 
-            <div className={styles.pagination_bar}>
-                <button onClick={() => loadPage(currentPage - 1)}>
-                    &larr;
-                </button>
-                
-                <button onClick={() => loadPage(currentPage + 1)}>
-                    &rarr;
-                </button>
-            </div>
-        </div>
-    );
+      <div className={styles.pagination_bar}>
+        <button onClick={() => loadPage(currentPage - 1)}>&larr;</button>
+
+        <button onClick={() => loadPage(currentPage + 1)}>&rarr;</button>
+      </div>
+    </div>
+  );
 }
 
 export default Animes;
