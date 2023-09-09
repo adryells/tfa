@@ -1,4 +1,3 @@
-import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
@@ -21,7 +20,3 @@ app.add_route("/graphql", graphql_app)
 @app.get("/")
 def root():
     return {"Hello": "World"}
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1")
