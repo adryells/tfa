@@ -119,7 +119,6 @@
 
 .modal_content div textarea[id="synopsis"] {
   height: 6rem;
-  max-height: 10rem;
   resize: none;
   padding: 0.1rem;
 }
