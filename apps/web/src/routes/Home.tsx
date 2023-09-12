@@ -6,8 +6,6 @@ import classes from "./Home.module.css";
 import Input from "../components/Input";
 import { TFAResultProps } from "../types/tfa";
 import AppConfig from "../config/AppConfig";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const config = AppConfig;
 
@@ -223,6 +221,8 @@ function Home() {
     } catch (error: Error | any) {
       console.error("Ocorreu um erro:", error.message);
     }
+
+    closeModal();
   };
 
   const updateDedicatedHours = (e: ChangeEvent<HTMLInputElement>) => {
@@ -311,16 +311,114 @@ function Home() {
         </div>
       </div>
 
+      {isModalOpen && selectedAnime && (
+        <div className={classes.modal}>
+          <div className={classes.modal_content}>
+            <h2>Alguma informação errada? Requisite uma mudança :p</h2>
+
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name || ""}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Type the anime name here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="reason">Reason:</label>
+              <textarea
+                id="reason"
+                name="reason"
+                value={reason ? reason : ""}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="Type the reason here"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="name">Additional Info:</label>
+              <textarea
+                id="additional_info"
+                name="additional_info"
+                value={additional_info ? additional_info : ""}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                placeholder="Type the additional info here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="synopsis">Synopsis:</label>
+              <textarea
+                id="synopsis"
+                name="synopsis"
+                value={synopsis || ""}
+                onChange={(e) => setSynopsis(e.target.value)}
+                placeholder="Type the synopsis here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="num_episodes">Num episodes:</label>
+              <input
+                type="number"
+                id="num_episodes"
+                name="num_episodes"
+                onChange={(e) =>
+                  setRequestChangetNumEpisodes(parseInt(e.target.value))
+                }
+                placeholder="Type the numº episodes here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="average_ep_duration">Average ep duration:</label>
+              <input
+                type="number"
+                id="average_ep_duration"
+                name="average_ep_duration"
+                onChange={(e) =>
+                  setRequestChangeAverageEpDuration(parseInt(e.target.value))
+                }
+                placeholder="Type the average duration"
+              />
+            </div>
+
+            <div className={classes.buttons}>
+              <button
+                onClick={() => {
+                  handleRequestAnimeChange(
+                    selectedAnime.id,
+                    reason,
+                    additional_info,
+                    name,
+                    synopsis,
+                    request_change_num_episodes,
+                    request_change_average_ep_duration
+                  );
+                }}
+              >
+                Confirm Changes
+              </button>
+              <button onClick={closeModal}>Fechar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={classes.animes_container}>
         {animes &&
           animes.length > 0 &&
           animes.map((anime) => (
-            <div key={anime.id} className={classes.anime}>
-              <FontAwesomeIcon
-                icon={faPencilAlt}
-                className={classes.editIcon}
-                onClick={() => openModal(anime)}
-              />
+            <div
+              key={anime.id}
+              className={classes.anime_container}
+              onClick={() => openModal(anime)}
+            >
               <Anime
                 id={anime.id}
                 name={anime.name}
@@ -357,100 +455,6 @@ function Home() {
             </p>
           </div>
           <img src="/img/resultgirl.png" />
-        </div>
-      )}
-
-      {isModalOpen && selectedAnime && (
-        <div className={classes.modal}>
-          <div className={classes.modal_content}>
-            <div>ID: {selectedAnime.id}</div>
-
-            <div>
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={selectedAnime.name || name || ""}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="reason">Reason:</label>
-              <textarea
-                id="reason"
-                name="reason"
-                value={reason ? reason : ""}
-                onChange={(e) => setReason(e.target.value)}
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="name">Additional Info:</label>
-              <input
-                type="text"
-                id="additional_info"
-                name="additional_info"
-                value={additional_info ? additional_info : ""}
-                onChange={(e) => setAdditionalInfo(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="synopsis">Synopsis:</label>
-              <textarea
-                id="synopsis"
-                name="synopsis"
-                value={selectedAnime.synopsis || synopsis || ""}
-                onChange={(e) => setSynopsis(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="num_episodes">Num episodes:</label>
-              <input
-                type="number"
-                id="num_episodes"
-                name="num_episodes"
-                value={selectedAnime.numEpisodes || num_episodes}
-                onChange={(e) =>
-                  setRequestChangetNumEpisodes(parseInt(e.target.value))
-                }
-              />
-            </div>
-
-            <div>
-              <label htmlFor="average_ep_duration">Average ep duration:</label>
-              <input
-                type="number"
-                id="average_ep_duration"
-                name="average_ep_duration"
-                value={selectedAnime.averageEpDuration || average_ep_duration}
-                onChange={(e) =>
-                  setRequestChangeAverageEpDuration(parseInt(e.target.value))
-                }
-              />
-            </div>
-
-            <button
-              onClick={() => {
-                handleRequestAnimeChange(
-                  selectedAnime.id,
-                  reason,
-                  additional_info,
-                  name,
-                  synopsis,
-                  request_change_num_episodes,
-                  request_change_average_ep_duration
-                );
-              }}
-            >
-              Confirm Changes
-            </button>
-            <button onClick={closeModal}>Fechar</button>
-          </div>
         </div>
       )}
     </div>

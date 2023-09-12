@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimeProps } from "../types/anime";
 import classes from "./Anime.module.css";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Anime = ({
   name,
@@ -18,6 +20,7 @@ const Anime = ({
 
   return (
     <div className={classes.anime}>
+      <FontAwesomeIcon icon={faPencilAlt} className={classes.editIcon} />
       <h3>{name}</h3>
       <p>{synopsis}</p>
       <p>Episódios: {numEpisodes}</p>
