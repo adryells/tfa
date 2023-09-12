@@ -17,6 +17,35 @@ function Home() {
   const [title, setTitle] = useState("Random anime");
   const [num_episodes, setNumEpisodes] = useState(1);
   const [average_ep_duration, setAverageEpDuration] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedAnime, setSelectedAnime] = useState<AnimeProps | null>(null);
+  const [request_change_num_episodes, setRequestChangetNumEpisodes] = useState<
+    number | null
+  >(null);
+  const [name, setName] = useState<string | null>("");
+  const [
+    request_change_average_ep_duration,
+    setRequestChangeAverageEpDuration,
+  ] = useState<number | null>(null);
+  const [synopsis, setSynopsis] = useState<string | null>("");
+  const [reason, setReason] = useState<string>("");
+  const [additional_info, setAdditionalInfo] = useState<string | null>("");
+
+  const openModal = (anime: AnimeProps) => {
+    setIsModalOpen(true);
+    setSelectedAnime(anime);
+  };
+
+  const closeModal = () => {
+    setSelectedAnime(null);
+    setIsModalOpen(false);
+    setName("");
+    setAdditionalInfo("");
+    setReason("");
+    setSynopsis("");
+    setRequestChangeAverageEpDuration(null);
+    setRequestChangetNumEpisodes(null);
+  };
 
   const loadAnime = async (search: string) => {
     try {
@@ -127,6 +156,75 @@ function Home() {
     }
   };
 
+  const handleRequestAnimeChange = async (
+    animeId: number,
+    reason: string,
+    additionalInfo: string | null,
+    name: string | null,
+    synopsis: string | null,
+    numEpisodes: number | null,
+    averageEpDuration: number | null
+  ) => {
+    try {
+      const res = await fetch(`${config.API_URL}/graphql`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          variables: {
+            animeid: animeId,
+            reason: reason,
+            additional_info: additionalInfo,
+            name: name,
+            synopsis: synopsis,
+            num_episodes: numEpisodes,
+            average_ep_duration: averageEpDuration,
+          },
+          query: `mutation RequestAnimeChange (
+            $animeid: Int!,
+            $reason: String!,
+            $additional_info: String,
+            $name: String,
+            $image_url: String,
+            $synopsis: String,
+            $num_episodes: Int,
+            $average_ep_duration: Int
+          ) {
+            RequestAnimeChange(inputRequestAnimeChange:{
+              animeId: $animeid,
+              reason: $reason,
+              additionalInfo: $additional_info,
+              name: $name,
+              imageUrl: $image_url,
+              synopsis: $synopsis,
+              numEpisodes: $num_episodes,
+              averageEpDuration: $average_ep_duration
+            }) {
+              success
+            }
+          }`,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Erro na chamada da API");
+      }
+
+      const responseJson = await res.json();
+      const success = responseJson["data"]["RequestAnimeChange"]["success"];
+
+      if (!success) {
+        alert("Um erro desconhecido");
+      }
+    } catch (error: Error | any) {
+      console.error("Ocorreu um erro:", error.message);
+    }
+
+    closeModal();
+  };
+
   const updateDedicatedHours = (e: ChangeEvent<HTMLInputElement>) => {
     const valueAsNumber = parseInt(e.target.value, 10);
     const validated_number = valueAsNumber > 0 ? valueAsNumber : 1;
@@ -213,24 +311,128 @@ function Home() {
         </div>
       </div>
 
+      {isModalOpen && selectedAnime && (
+        <div className={classes.modal}>
+          <div className={classes.modal_content}>
+            <h2>Alguma informação errada? Requisite uma mudança :p</h2>
+
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name || ""}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Type the anime name here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="reason">Reason:</label>
+              <textarea
+                id="reason"
+                name="reason"
+                value={reason ? reason : ""}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="Type the reason here"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="name">Additional Info:</label>
+              <textarea
+                id="additional_info"
+                name="additional_info"
+                value={additional_info ? additional_info : ""}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                placeholder="Type the additional info here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="synopsis">Synopsis:</label>
+              <textarea
+                id="synopsis"
+                name="synopsis"
+                value={synopsis || ""}
+                onChange={(e) => setSynopsis(e.target.value)}
+                placeholder="Type the synopsis here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="num_episodes">Num episodes:</label>
+              <input
+                type="number"
+                id="num_episodes"
+                name="num_episodes"
+                onChange={(e) =>
+                  setRequestChangetNumEpisodes(parseInt(e.target.value))
+                }
+                placeholder="Type the numº episodes here"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="average_ep_duration">Average ep duration:</label>
+              <input
+                type="number"
+                id="average_ep_duration"
+                name="average_ep_duration"
+                onChange={(e) =>
+                  setRequestChangeAverageEpDuration(parseInt(e.target.value))
+                }
+                placeholder="Type the average duration"
+              />
+            </div>
+
+            <div className={classes.buttons}>
+              <button
+                onClick={() => {
+                  handleRequestAnimeChange(
+                    selectedAnime.id,
+                    reason,
+                    additional_info,
+                    name,
+                    synopsis,
+                    request_change_num_episodes,
+                    request_change_average_ep_duration
+                  );
+                }}
+              >
+                Confirm Changes
+              </button>
+              <button onClick={closeModal}>Fechar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={classes.animes_container}>
         {animes &&
           animes.length > 0 &&
           animes.map((anime) => (
-            <Anime
-              id={anime.id}
+            <div
               key={anime.id}
-              name={anime.name}
-              synopsis={anime.synopsis}
-              numEpisodes={anime.numEpisodes}
-              averageEpDuration={anime.averageEpDuration}
-              totalDays={anime.totalDays}
-              totalHours={anime.totalHours}
-              dedicated_hours={dedicated_hours}
-              active={anime.active}
-              source_data_id={null}
-              request_change_id={null}
-            />
+              className={classes.anime_container}
+              onClick={() => openModal(anime)}
+            >
+              <Anime
+                id={anime.id}
+                name={anime.name}
+                synopsis={anime.synopsis}
+                numEpisodes={anime.numEpisodes}
+                averageEpDuration={anime.averageEpDuration}
+                totalDays={anime.totalDays}
+                totalHours={anime.totalHours}
+                dedicated_hours={dedicated_hours}
+                active={anime.active}
+                source_data_id={null}
+                request_change_id={null}
+              />
+            </div>
           ))}
       </div>
 

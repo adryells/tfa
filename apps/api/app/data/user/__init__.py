@@ -27,9 +27,30 @@ jaw = UserData(
     role=common
 )
 
+roger = UserData(
+    username="roger",
+    email="roger@tfa.tfa",
+    role=common
+)
+
+jhonny = UserData(
+    username="jhonny",
+    email="jhonny@tfa.tfa",
+    role=common
+)
+
+caduestest = UserData(
+    username="caduestest",
+    email="cadu@tfa.tfa",
+    role=common
+)
+
 dev_users = [
     adryell,
-    jaw
+    jaw,
+    roger,
+    jhonny,
+    caduestest
 ]
 
 prod_users = [
