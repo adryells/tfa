@@ -1,8 +1,10 @@
 import { Outlet } from "react-router-dom";
 import classes from "./App.module.css";
 import BackgroundMusic from "./components/BackgroundMusic";
+import Contact from "./components/Contact";
 
 function App() {
+  console.log(import.meta.env);
   return (
     <div className={classes.app}>
       <a href="/">
@@ -10,6 +12,7 @@ function App() {
       </a>
       <BackgroundMusic />
       <Outlet />
+      <Contact />
     </div>
   );
 }
