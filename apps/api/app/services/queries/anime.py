@@ -4,6 +4,7 @@ from app.controllers.anime.anime_controller import AnimeController
 from app.services.types.anime import gAnime, gAnimes
 from app.services.types.enums import AnimeSortByEnum
 from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
+from app.utils.redis_cache import RedisCacheController
 
 
 class Animes(ObjectType):
@@ -31,13 +32,26 @@ class Animes(ObjectType):
             per_page: int = None
     ):
         anime_controller = AnimeController(info.context.session)
+        redis_cache_controller = RedisCacheController()
 
-        animes = anime_controller.get_animes(sort_by=sort_by, search=search, per_page=per_page, page=page)
-        count = anime_controller.get_animes_count(search=search)
+        cache_key = f"anime:{sort_by}-{search}-{page}-{per_page}"
+
+        anime_cached = redis_cache_controller.get_data(cache_key)
+        total_anime_cached = redis_cache_controller.get_data(f"anime_count:{sort_by}-{search}-{page}-{per_page}")
+
+        if anime_cached and total_anime_cached:
+            items = anime_cached
+            total = total_anime_cached
+
+        else:
+            items = anime_controller.get_animes(sort_by=sort_by, search=search, per_page=per_page, page=page)
+            total = anime_controller.get_animes_count(search=search)
+
+            redis_cache_controller.set_data(cache_key, items)
 
         return gAnimes(
-            items=animes,
-            total_count=count,
+            items=items,
+            total_count=total,
             page=page,
             per_page=per_page
         )

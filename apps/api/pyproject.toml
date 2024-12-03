@@ -24,6 +24,8 @@ httpx = "^0.24.1"
 starlette-graphene3 = "0.6.0"
 sqlalchemy-easy-softdelete = "^0.8.2"
 pytest-xdist = "^3.3.1"
+redis = {extras = ["asyncio"], version = "^5.2.0"}
+aioredis = "^2.0.1"
 
 
 [build-system]

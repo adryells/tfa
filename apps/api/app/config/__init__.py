@@ -21,6 +21,8 @@ class AppConfig(BaseSettings):
 
     MAL_BASE_URL: str = ""
 
+    REDIS_URL: str = "redis://localhost:6379"
+
     class Config:
         env_file = ".env"
         env_prefix = "TFA_"
