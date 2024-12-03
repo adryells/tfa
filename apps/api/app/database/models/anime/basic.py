@@ -40,3 +40,16 @@ class Anime(DbBaseModel, CreatedUpdatedDeletedMixin):
         calc = self.total_hours / 24
 
         return calc
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "original_id": self.original_id,
+            "name": self.name,
+            "synopsis": self.synopsis,
+            "num_episodes": self.num_episodes,
+            "average_ep_duration": self.average_ep_duration,
+            "source_data_id": self.source_data_id,
+            "active": self.active,
+            "name_conflicts": self.name_conflicts
+        }
