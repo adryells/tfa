@@ -1,10 +1,13 @@
+import json
+
 from graphene import ObjectType, Field, Int, Argument, String
 
 from app.controllers.anime.anime_controller import AnimeController
+from app.database.models.anime.basic import Anime
+from app.database.redis_client import redis_client
 from app.services.types.anime import gAnime, gAnimes
 from app.services.types.enums import AnimeSortByEnum
 from app.services.utils.custom_graphql_info import TFAGraphQLResolveInfo
-from app.utils.redis_cache import RedisCacheController
 
 
 class Animes(ObjectType):
@@ -18,7 +21,7 @@ class Animes(ObjectType):
         per_page=Argument(Int, default_value=50)
     )
 
-    def resolve_anime(self, info: TFAGraphQLResolveInfo, anime_id: int):
+    async def resolve_anime(self, info: TFAGraphQLResolveInfo, anime_id: int):
         anime = AnimeController(info.context.session).get_anime_by_id(anime_id=anime_id)
 
         return anime
@@ -32,25 +35,45 @@ class Animes(ObjectType):
             per_page: int = None
     ):
         anime_controller = AnimeController(info.context.session)
-        redis_cache_controller = RedisCacheController()
 
-        cache_key = f"anime:{sort_by}-{search}-{page}-{per_page}"
+        cache_key = f":{sort_by}-{search}-{page}-{per_page}"
+        anime_key = f"anime{cache_key}"
+        total_count_key = f"anime_count{cache_key}"
 
-        anime_cached = redis_cache_controller.get_data(cache_key)
-        total_anime_cached = redis_cache_controller.get_data(f"anime_count:{sort_by}-{search}-{page}-{per_page}")
+        anime_cached = redis_client.get(anime_key)
+        total_anime_cached = redis_client.get(total_count_key)
 
         if anime_cached and total_anime_cached:
-            items = anime_cached
+            items = json.loads(anime_cached)
             total = total_anime_cached
 
         else:
-            items = anime_controller.get_animes(sort_by=sort_by, search=search, per_page=per_page, page=page)
+            animes = anime_controller.get_animes(sort_by=sort_by, search=search, per_page=per_page, page=page)
             total = anime_controller.get_animes_count(search=search)
+            items = [anime.to_dict() for anime in animes]
 
-            redis_cache_controller.set_data(cache_key, items)
+            redis_client.set(anime_key, json.dumps(items), ex=120)
+            redis_client.set(total_count_key, total, ex=120)
+
+        response_animes = []
+        for item in items:
+            response_animes.append(
+                Anime(
+                    active=item.get("active"),
+                    average_ep_duration=item.get("average_ep_duration"),
+                    id=item.get("id"),
+                    name=item.get("name"),
+                    name_conflicts=item.get("name_conflicts"),
+                    num_episodes=item.get("num_episodes"),
+                    original_id=item.get("original_id"),
+                    source_data_id=item.get("source_data_id"),
+                    synopsis=item.get("synopsis")
+                )
+            )
+
 
         return gAnimes(
-            items=items,
+            items=response_animes,
             total_count=total,
             page=page,
             per_page=per_page

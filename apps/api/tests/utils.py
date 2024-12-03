@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from faker import Faker
 from pydantic import BaseModel
@@ -22,6 +23,13 @@ fake = Faker()
 
 def format_date_graphql(string_date: str):
     return "T".join(str(string_date).split(" "))
+
+
+
+def format_datetime(dt):
+    if isinstance(dt, str):
+        dt = datetime.fromisoformat(dt.replace("Z", "+00:00"))
+    return dt.isoformat(timespec="seconds")
 
 
 def create_anime(session: Session):
